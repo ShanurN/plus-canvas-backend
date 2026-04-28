@@ -21,7 +21,7 @@
                     "Authentication"
                 ],
                 "summary": "Authenticate user and return token",
-                "operationId": "dd51a484b7fa0f97c7680fdbde14cf5f",
+                "operationId": "6a5bb43788b59751356b7d49c43ef967",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -84,7 +84,7 @@
                     "Authentication"
                 ],
                 "summary": "Logout the current user",
-                "operationId": "df9bdc6c7a6d9f20b983526b2ec0f698",
+                "operationId": "e334279f655221325b755e0c7a533a12",
                 "responses": {
                     "200": {
                         "description": "Successfully logged out",
@@ -119,7 +119,7 @@
                     "Authentication"
                 ],
                 "summary": "Get the authenticated user info",
-                "operationId": "b5de204f5e452ef51327c691aa99e77c",
+                "operationId": "0b9bd0f6f5edbf9e43aaaa03e5408f3b",
                 "responses": {
                     "200": {
                         "description": "Authenticated user profile",
@@ -145,7 +145,7 @@
         "/api/banners": {
             "get": {
                 "tags": [
-                    "Banners"
+                    "Frontend - Banners"
                 ],
                 "summary": "Get list of all active banners",
                 "operationId": "9f718c7db0d13e4b5be26b80595f4cf1",
@@ -170,7 +170,7 @@
                     "Banners"
                 ],
                 "summary": "Create a new banner",
-                "operationId": "546707dc3442c51e694ec312df3664e9",
+                "operationId": "7d9b035be6e876cced27125afe2deace",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -230,7 +230,7 @@
         "/api/banners/{id}": {
             "get": {
                 "tags": [
-                    "Banners"
+                    "Frontend - Banners"
                 ],
                 "summary": "Get single banner details",
                 "operationId": "13d01a36bda0d8b491a382619c6bc469",
@@ -266,7 +266,7 @@
                 ],
                 "summary": "Update an existing banner",
                 "description": "Note: Use POST with _method=PUT because of PHP multipart/form-data limitations",
-                "operationId": "d46ea9fc55f6d0b2ffb4af96eafa7a2b",
+                "operationId": "99e37356f75070c8d3a9c25c55259724",
                 "parameters": [
                     {
                         "name": "id",
@@ -337,7 +337,7 @@
                     "Banners"
                 ],
                 "summary": "Delete a banner",
-                "operationId": "00a27f787ec0124f0b98cfdeecf6090a",
+                "operationId": "2b34de01b13ee56734437020c2110d46",
                 "parameters": [
                     {
                         "name": "id",
@@ -369,7 +369,7 @@
                     "Banners"
                 ],
                 "summary": "Update banners order",
-                "operationId": "7cf6d974ba2b28da778f5be07b08fdfa",
+                "operationId": "48a1c4af63aee946510843e238069636",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -493,6 +493,10 @@
         {
             "name": "Banners",
             "description": "Banners"
+        },
+        {
+            "name": "Frontend - Banners",
+            "description": "Frontend - Banners"
         }
     ]
 }

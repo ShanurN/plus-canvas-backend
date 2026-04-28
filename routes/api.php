@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BannerController as AdminBannerController;
+use App\Http\Controllers\Api\BannerController as PublicBannerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,12 +28,12 @@ Route::prefix('auth')->group(function () {
 });
 
 // Banner Routes
-Route::get('/banners', [\App\Http\Controllers\Api\BannerController::class, 'index']);
-Route::get('/banners/{banner}', [\App\Http\Controllers\Api\BannerController::class, 'show']);
+Route::get('/banners', [PublicBannerController::class, 'index']);
+Route::get('/banners/{banner}', [PublicBannerController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/banners', [\App\Http\Controllers\Api\BannerController::class, 'store']);
-    Route::post('/banners/reorder', [\App\Http\Controllers\Api\BannerController::class, 'reorder']);
-    Route::put('/banners/{banner}', [\App\Http\Controllers\Api\BannerController::class, 'update']);
-    Route::delete('/banners/{banner}', [\App\Http\Controllers\Api\BannerController::class, 'destroy']);
+    Route::post('/banners', [AdminBannerController::class, 'store']);
+    Route::post('/banners/reorder', [AdminBannerController::class, 'reorder']);
+    Route::put('/banners/{banner}', [AdminBannerController::class, 'update']);
+    Route::delete('/banners/{banner}', [AdminBannerController::class, 'destroy']);
 });
