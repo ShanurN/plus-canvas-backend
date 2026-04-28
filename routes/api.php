@@ -24,3 +24,14 @@ Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 });
+
+// Banner Routes
+Route::get('/banners', [\App\Http\Controllers\Api\BannerController::class, 'index']);
+Route::get('/banners/{banner}', [\App\Http\Controllers\Api\BannerController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/banners', [\App\Http\Controllers\Api\BannerController::class, 'store']);
+    Route::post('/banners/reorder', [\App\Http\Controllers\Api\BannerController::class, 'reorder']);
+    Route::put('/banners/{banner}', [\App\Http\Controllers\Api\BannerController::class, 'update']);
+    Route::delete('/banners/{banner}', [\App\Http\Controllers\Api\BannerController::class, 'destroy']);
+});
