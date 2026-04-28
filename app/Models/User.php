@@ -15,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use \Laravel\Sanctum\HasApiTokens, HasFactory, Notifiable;
 
     /**
      * Get the attributes that should be cast.
