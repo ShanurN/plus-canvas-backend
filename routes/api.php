@@ -31,9 +31,11 @@ Route::prefix('auth')->group(function () {
 Route::get('/banners', [PublicBannerController::class, 'index']);
 Route::get('/banners/{banner}', [PublicBannerController::class, 'show']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::get('/banners', [AdminBannerController::class, 'index']);
+    Route::get('/banners/{banner}', [AdminBannerController::class, 'show']);
     Route::post('/banners', [AdminBannerController::class, 'store']);
     Route::post('/banners/reorder', [AdminBannerController::class, 'reorder']);
-    Route::put('/banners/{banner}', [AdminBannerController::class, 'update']);
+    Route::post('/banners/{banner}', [AdminBannerController::class, 'update']); // Use POST for multipart
     Route::delete('/banners/{banner}', [AdminBannerController::class, 'destroy']);
 });

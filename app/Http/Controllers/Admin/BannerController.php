@@ -15,8 +15,46 @@ use OpenApi\Attributes as OA;
 
 class BannerController extends Controller
 {
+    #[OA\Get(
+        path: "/api/admin/banners",
+        summary: "Get list of all banners (Admin)",
+        tags: ["Banners"],
+        security: [["apiAuth" => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "List of all banners",
+                content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/BannerResource"))
+            )
+        ]
+    )]
+    public function index(): AnonymousResourceCollection
+    {
+        $banners = Banner::orderBy('order')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return BannerResource::collection($banners);
+    }
+
+    #[OA\Get(
+        path: "/api/admin/banners/{id}",
+        summary: "Get single banner details (Admin)",
+        tags: ["Banners"],
+        security: [["apiAuth" => []]],
+        parameters: [new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))],
+        responses: [
+            new OA\Response(response: 200, description: "Banner details", content: new OA\JsonContent(ref: "#/components/schemas/BannerResource")),
+            new OA\Response(response: 404, description: "Banner not found")
+        ]
+    )]
+    public function show(Banner $banner): BannerResource
+    {
+        return new BannerResource($banner);
+    }
+
     #[OA\Post(
-        path: "/api/banners",
+        path: "/api/admin/banners",
         summary: "Create a new banner",
         tags: ["Banners"],
         security: [["apiAuth" => []]],
@@ -58,7 +96,7 @@ class BannerController extends Controller
     }
 
     #[OA\Post(
-        path: "/api/banners/{id}",
+        path: "/api/admin/banners/{id}",
         summary: "Update an existing banner",
         description: "Note: Use POST with _method=PUT because of PHP multipart/form-data limitations",
         tags: ["Banners"],
@@ -103,7 +141,7 @@ class BannerController extends Controller
     }
 
     #[OA\Delete(
-        path: "/api/banners/{id}",
+        path: "/api/admin/banners/{id}",
         summary: "Delete a banner",
         tags: ["Banners"],
         security: [["apiAuth" => []]],
@@ -125,7 +163,7 @@ class BannerController extends Controller
     }
 
     #[OA\Post(
-        path: "/api/banners/reorder",
+        path: "/api/admin/banners/reorder",
         summary: "Update banners order",
         tags: ["Banners"],
         security: [["apiAuth" => []]],

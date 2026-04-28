@@ -142,16 +142,16 @@
                 ]
             }
         },
-        "/api/banners": {
+        "/api/admin/banners": {
             "get": {
                 "tags": [
-                    "Frontend - Banners"
+                    "Banners"
                 ],
-                "summary": "Get list of all active banners",
-                "operationId": "9f718c7db0d13e4b5be26b80595f4cf1",
+                "summary": "Get list of all banners (Admin)",
+                "operationId": "281d42a28df6c8a4ed7010b6cb156534",
                 "responses": {
                     "200": {
-                        "description": "List of banners",
+                        "description": "List of all banners",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -163,14 +163,19 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Banners"
                 ],
                 "summary": "Create a new banner",
-                "operationId": "7d9b035be6e876cced27125afe2deace",
+                "operationId": "9ac3718de173d6cd37207087ccc2d7e0",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -227,13 +232,13 @@
                 ]
             }
         },
-        "/api/banners/{id}": {
+        "/api/admin/banners/{id}": {
             "get": {
                 "tags": [
-                    "Frontend - Banners"
+                    "Banners"
                 ],
-                "summary": "Get single banner details",
-                "operationId": "13d01a36bda0d8b491a382619c6bc469",
+                "summary": "Get single banner details (Admin)",
+                "operationId": "3520a08167aedad67bc53acd066cf737",
                 "parameters": [
                     {
                         "name": "id",
@@ -258,7 +263,12 @@
                     "404": {
                         "description": "Banner not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -266,7 +276,7 @@
                 ],
                 "summary": "Update an existing banner",
                 "description": "Note: Use POST with _method=PUT because of PHP multipart/form-data limitations",
-                "operationId": "99e37356f75070c8d3a9c25c55259724",
+                "operationId": "2d332470b0db0254f3a1f6a1533d9d32",
                 "parameters": [
                     {
                         "name": "id",
@@ -337,7 +347,7 @@
                     "Banners"
                 ],
                 "summary": "Delete a banner",
-                "operationId": "2b34de01b13ee56734437020c2110d46",
+                "operationId": "cd3d75fc9ec4fe02873fa6fe5cde23a9",
                 "parameters": [
                     {
                         "name": "id",
@@ -363,13 +373,13 @@
                 ]
             }
         },
-        "/api/banners/reorder": {
+        "/api/admin/banners/reorder": {
             "post": {
                 "tags": [
                     "Banners"
                 ],
                 "summary": "Update banners order",
-                "operationId": "48a1c4af63aee946510843e238069636",
+                "operationId": "5cecab200f5b87bfd19be71ea103bbe5",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -405,6 +415,64 @@
                         "apiAuth": []
                     }
                 ]
+            }
+        },
+        "/api/banners": {
+            "get": {
+                "tags": [
+                    "Frontend - Banners"
+                ],
+                "summary": "Get list of all active banners",
+                "operationId": "9f718c7db0d13e4b5be26b80595f4cf1",
+                "responses": {
+                    "200": {
+                        "description": "List of banners",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BannerResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/banners/{id}": {
+            "get": {
+                "tags": [
+                    "Frontend - Banners"
+                ],
+                "summary": "Get single banner details",
+                "operationId": "13d01a36bda0d8b491a382619c6bc469",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Banner details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BannerResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner not found"
+                    }
+                }
             }
         }
     },
