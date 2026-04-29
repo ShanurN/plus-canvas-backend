@@ -417,6 +417,278 @@
                 ]
             }
         },
+        "/api/admin/categories": {
+            "get": {
+                "tags": [
+                    "Admin - Categories"
+                ],
+                "summary": "Get list of categories with filters",
+                "operationId": "f2245c68077a53aeb959c65f6b313825",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_featured",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "is_most_searched",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "featured_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "most_searched_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of categories"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Categories"
+                ],
+                "summary": "Create a new category",
+                "operationId": "b6debc8966a8a9c67c05b11372ba5d86",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Categories"
+                ],
+                "summary": "Get single category",
+                "operationId": "a0f286818f967a75235ac08e9ce3a34d",
+                "responses": {
+                    "200": {
+                        "description": "Category details"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Categories"
+                ],
+                "summary": "Update category",
+                "description": "Use POST with _method=PUT for multipart/form-data updates",
+                "operationId": "6141289de354ffee4a0e94ef25f8d81c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Categories"
+                ],
+                "summary": "Delete category",
+                "operationId": "758ac4f7cb5b21e5640e6dd136f3d77c",
+                "responses": {
+                    "204": {
+                        "description": "Category deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/categories/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Categories"
+                ],
+                "summary": "Batch update categories order/blocks",
+                "operationId": "3eadf81b426ba90cc7aff36d98013bca",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "is_featured": {
+                                                    "type": "boolean"
+                                                },
+                                                "featured_order": {
+                                                    "type": "integer"
+                                                },
+                                                "is_most_searched": {
+                                                    "type": "boolean"
+                                                },
+                                                "most_searched_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
         "/api/banners": {
             "get": {
                 "tags": [
@@ -471,6 +743,48 @@
                     },
                     "404": {
                         "description": "Banner not found"
+                    }
+                }
+            }
+        },
+        "/api/categories/featured": {
+            "get": {
+                "tags": [
+                    "Frontend - Categories"
+                ],
+                "summary": "Get featured categories for home page",
+                "operationId": "2511468173f31ab58058f5515d5a6724",
+                "responses": {
+                    "200": {
+                        "description": "List of featured categories"
+                    }
+                }
+            }
+        },
+        "/api/categories/most-searched": {
+            "get": {
+                "tags": [
+                    "Frontend - Categories"
+                ],
+                "summary": "Get most searched categories for home page",
+                "operationId": "37ee12511ef4fc26161d17c30e778ff1",
+                "responses": {
+                    "200": {
+                        "description": "List of most searched categories"
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Frontend - Categories"
+                ],
+                "summary": "Get all active categories",
+                "operationId": "ac9c4d978ea4e5b72915ca9728e5b8b1",
+                "responses": {
+                    "200": {
+                        "description": "List of categories"
                     }
                 }
             }
@@ -563,8 +877,16 @@
             "description": "Banners"
         },
         {
+            "name": "Admin - Categories",
+            "description": "Admin - Categories"
+        },
+        {
             "name": "Frontend - Banners",
             "description": "Frontend - Banners"
+        },
+        {
+            "name": "Frontend - Categories",
+            "description": "Frontend - Categories"
         }
     ]
 }

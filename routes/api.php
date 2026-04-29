@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Api\BannerController as PublicBannerController;
+use App\Http\Controllers\Api\CategoryController as PublicCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +33,11 @@ Route::prefix('auth')->group(function () {
 Route::get('/banners', [PublicBannerController::class, 'index']);
 Route::get('/banners/{banner}', [PublicBannerController::class, 'show']);
 
+// Category Routes
+Route::get('/categories', [PublicCategoryController::class, 'index']);
+Route::get('/categories/featured', [PublicCategoryController::class, 'featured']);
+Route::get('/categories/most-searched', [PublicCategoryController::class, 'mostSearched']);
+
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/banners', [AdminBannerController::class, 'index']);
     Route::get('/banners/{banner}', [AdminBannerController::class, 'show']);
@@ -38,4 +45,12 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/banners/reorder', [AdminBannerController::class, 'reorder']);
     Route::post('/banners/{banner}', [AdminBannerController::class, 'update']); // Use POST for multipart
     Route::delete('/banners/{banner}', [AdminBannerController::class, 'destroy']);
+
+    // Category Routes
+    Route::get('/categories', [AdminCategoryController::class, 'index']);
+    Route::post('/categories', [AdminCategoryController::class, 'store']);
+    Route::get('/categories/{category}', [AdminCategoryController::class, 'show']);
+    Route::post('/categories/reorder', [AdminCategoryController::class, 'reorder']);
+    Route::post('/categories/{category}', [AdminCategoryController::class, 'update']); // for multipart
+    Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
 });
