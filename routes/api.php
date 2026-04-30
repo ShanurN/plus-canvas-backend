@@ -44,7 +44,6 @@ Route::get('/banners/{banner}', [PublicBannerController::class, 'show']);
 
 // Category Routes
 Route::get('/categories', [PublicCategoryController::class, 'index']);
-Route::get('/categories/most-searched', [PublicCategoryController::class, 'mostSearched']);
 
 // Brand Routes
 Route::get('/brands', [PublicBrandController::class, 'index']);

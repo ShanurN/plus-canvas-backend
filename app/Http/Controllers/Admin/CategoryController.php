@@ -23,8 +23,6 @@ class CategoryController extends Controller
         parameters: [
             new OA\Parameter(name: "name", in: "query", schema: new OA\Schema(type: "string")),
             new OA\Parameter(name: "featured_order", in: "query", schema: new OA\Schema(type: "integer")),
-            new OA\Parameter(name: "is_most_searched", in: "query", schema: new OA\Schema(type: "boolean")),
-            new OA\Parameter(name: "most_searched_order", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "per_page", in: "query", schema: new OA\Schema(type: "integer")),
         ],
         responses: [
@@ -41,14 +39,6 @@ class CategoryController extends Controller
 
         if ($request->filled('featured_order')) {
             $query->where('featured_order', $request->featured_order);
-        }
-
-        if ($request->has('is_most_searched')) {
-            $query->where('is_most_searched', filter_var($request->is_most_searched, FILTER_VALIDATE_BOOLEAN));
-        }
-
-        if ($request->filled('most_searched_order')) {
-            $query->where('most_searched_order', $request->most_searched_order);
         }
 
         $categories = $query->orderBy('featured_order', 'asc')
@@ -173,8 +163,6 @@ class CategoryController extends Controller
                         properties: [
                             new OA\Property(property: "id", type: "integer"),
                             new OA\Property(property: "featured_order", type: "integer"),
-                            new OA\Property(property: "is_most_searched", type: "boolean"),
-                            new OA\Property(property: "most_searched_order", type: "integer"),
                         ]
                     ))
                 ]
@@ -190,8 +178,6 @@ class CategoryController extends Controller
             'items' => ['required', 'array'],
             'items.*.id' => ['required', 'exists:categories,id'],
             'items.*.featured_order' => ['nullable', 'integer'],
-            'items.*.is_most_searched' => ['nullable', 'boolean'],
-            'items.*.most_searched_order' => ['nullable', 'integer'],
         ]);
 
         foreach ($request->items as $item) {

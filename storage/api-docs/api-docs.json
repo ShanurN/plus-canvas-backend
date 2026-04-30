@@ -717,20 +717,6 @@
                         }
                     },
                     {
-                        "name": "is_most_searched",
-                        "in": "query",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "most_searched_order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
                         "name": "per_page",
                         "in": "query",
                         "schema": {
@@ -946,12 +932,6 @@
                                                     "type": "integer"
                                                 },
                                                 "featured_order": {
-                                                    "type": "integer"
-                                                },
-                                                "is_most_searched": {
-                                                    "type": "boolean"
-                                                },
-                                                "most_searched_order": {
                                                     "type": "integer"
                                                 }
                                             },
@@ -1321,30 +1301,6 @@
                 }
             }
         },
-        "/api/categories/most-searched": {
-            "get": {
-                "tags": [
-                    "Frontend - Categories"
-                ],
-                "summary": "Get most searched categories for home page",
-                "operationId": "37ee12511ef4fc26161d17c30e778ff1",
-                "responses": {
-                    "200": {
-                        "description": "List of most searched categories",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CategoryResource"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/categories": {
             "get": {
                 "tags": [
@@ -1499,12 +1455,6 @@
                         "type": "boolean"
                     },
                     "featured_order": {
-                        "type": "integer"
-                    },
-                    "is_most_searched": {
-                        "type": "boolean"
-                    },
-                    "most_searched_order": {
                         "type": "integer"
                     },
                     "created_at": {

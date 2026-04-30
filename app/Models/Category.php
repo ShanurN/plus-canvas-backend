@@ -11,8 +11,6 @@ use Illuminate\Support\Str;
     'slug', 
     'is_active', 
     'featured_order',
-    'is_most_searched', 
-    'most_searched_order'
 ])]
 class Category extends Model
 {
@@ -37,16 +35,6 @@ class Category extends Model
         return [
             'is_active' => 'boolean',
             'featured_order' => 'integer',
-            'is_most_searched' => 'boolean',
-            'most_searched_order' => 'integer',
         ];
-    }
-
-    /**
-     * Scope for most searched categories
-     */
-    public function scopeMostSearched($query)
-    {
-        return $query->where('is_most_searched', true)->orderBy('most_searched_order');
     }
 }
