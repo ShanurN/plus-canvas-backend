@@ -25,7 +25,7 @@ class UpdateBannerRequest extends FormRequest
         return [
             'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:6048'],
             'url' => ['nullable', 'string', 'max:255'],
             'order' => ['nullable', 'integer'],
             'is_active' => ['nullable', 'boolean'],

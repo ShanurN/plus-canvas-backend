@@ -25,7 +25,7 @@ class StoreBannerRequest extends FormRequest
         return [
             'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'image' => ['required', 'image', 'max:2048'], // 2MB max
+            'image' => ['required', 'image', 'max:6048'], // 6MB max
             'url' => ['nullable', 'string', 'max:255'],
             'order' => ['nullable', 'integer'],
             'is_active' => ['nullable', 'boolean'],

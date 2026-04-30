@@ -25,7 +25,7 @@ class StoreDiscountRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:6048'],
             'is_active' => ['nullable', 'boolean'],
             'order' => ['nullable', 'integer'],
         ];
