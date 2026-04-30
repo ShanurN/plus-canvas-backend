@@ -40,7 +40,9 @@ class BrandController extends Controller
             $query->where('featured_order', $request->featured_order);
         }
 
-        $brands = $query->orderBy('id', 'desc')->paginate($request->integer('per_page', 15));
+        $brands = $query->orderBy('featured_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->paginate($request->integer('per_page', 15));
 
         return BrandResource::collection($brands);
     }

@@ -39,6 +39,7 @@ class CategoryController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $categories = Category::where('is_active', true)
+            ->orderBy('featured_order', 'asc')
             ->orderBy('name')
             ->get();
 

@@ -51,7 +51,9 @@ class CategoryController extends Controller
             $query->where('most_searched_order', $request->most_searched_order);
         }
 
-        $categories = $query->orderBy('id', 'desc')->paginate($request->integer('per_page', 15));
+        $categories = $query->orderBy('featured_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->paginate($request->integer('per_page', 15));
 
         return CategoryResource::collection($categories);
     }

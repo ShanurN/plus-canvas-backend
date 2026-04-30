@@ -21,6 +21,7 @@ class BrandController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $brands = Brand::where('is_active', true)
+            ->orderBy('featured_order', 'asc')
             ->orderBy('name')
             ->get();
 
