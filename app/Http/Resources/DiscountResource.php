@@ -20,7 +20,7 @@ class DiscountResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'image' => $this->image,
-            'image_url' => $this->image ? Storage::disk('public')->url($this->image) : null,
+            'image_url' => $this->image_url,
             'is_active' => $this->is_active,
             'order' => $this->order,
             'created_at' => $this->created_at,

@@ -31,7 +31,7 @@ class BannerResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'image' => $this->image,
-            'image_url' => $this->image ? asset('storage/' . $this->image) : null,
+            'image_url' => $this->image_url,
             'url' => $this->url,
             'order' => $this->order,
             'is_active' => $this->is_active,

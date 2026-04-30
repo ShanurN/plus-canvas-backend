@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
     'title',
     'description',
     'image',
+    'image_url',
     'is_active',
     'order'
 ])]

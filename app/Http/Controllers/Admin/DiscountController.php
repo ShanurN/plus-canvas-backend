@@ -83,6 +83,7 @@ class DiscountController extends Controller
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('discounts', 'public');
+            $data['image_url'] = asset('storage/' . $data['image']);
         }
 
         $discount = Discount::create($data);
@@ -143,6 +144,7 @@ class DiscountController extends Controller
                 Storage::disk('public')->delete($discount->image);
             }
             $data['image'] = $request->file('image')->store('discounts', 'public');
+            $data['image_url'] = asset('storage/' . $data['image']);
         }
 
         $discount->update($data);

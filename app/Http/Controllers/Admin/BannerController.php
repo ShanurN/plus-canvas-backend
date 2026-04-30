@@ -86,6 +86,7 @@ class BannerController extends Controller
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('banners', 'public');
+            $data['image_url'] = asset('storage/' . $data['image']);
         }
 
         $banner = Banner::create($data);
@@ -133,6 +134,7 @@ class BannerController extends Controller
                 Storage::disk('public')->delete($banner->image);
             }
             $data['image'] = $request->file('image')->store('banners', 'public');
+            $data['image_url'] = asset('storage/' . $data['image']);
         }
 
         $banner->update($data);
