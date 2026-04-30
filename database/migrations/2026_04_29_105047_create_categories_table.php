@@ -15,14 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('image_path')->nullable();
             $table->boolean('is_active')->default(true);
-
-            // 1.2 Öne Çıkan Kategoriler
             $table->boolean('is_featured')->default(false);
             $table->integer('featured_order')->default(0);
-
-            // 1.3 En Çok Aranan Kategoriler
             $table->boolean('is_most_searched')->default(false);
             $table->integer('most_searched_order')->default(0);
 

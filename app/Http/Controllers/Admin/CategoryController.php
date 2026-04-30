@@ -75,7 +75,6 @@ class CategoryController extends Controller
                     properties: [
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
-                        new OA\Property(property: "image", type: "string", format: "binary"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "is_featured", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
@@ -91,10 +90,6 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         $data = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('categories', 'public');
-        }
 
         $category = Category::create($data);
 
@@ -132,7 +127,6 @@ class CategoryController extends Controller
                         new OA\Property(property: "_method", type: "string", example: "PUT"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
-                        new OA\Property(property: "image", type: "string", format: "binary"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "is_featured", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
@@ -148,13 +142,6 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category): CategoryResource
     {
         $data = $request->validated();
-
-        if ($request->hasFile('image')) {
-            if ($category->image_path) {
-                Storage::disk('public')->delete($category->image_path);
-            }
-            $data['image_path'] = $request->file('image')->store('categories', 'public');
-        }
 
         $category->update($data);
 
@@ -172,10 +159,6 @@ class CategoryController extends Controller
     )]
     public function destroy(Category $category): JsonResponse
     {
-        if ($category->image_path) {
-            Storage::disk('public')->delete($category->image_path);
-        }
-
         $category->delete();
 
         return response()->json(null, 204);

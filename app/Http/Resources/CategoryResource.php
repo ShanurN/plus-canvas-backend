@@ -19,7 +19,6 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image_url' => $this->image_path ? Storage::disk('public')->url($this->image_path) : null,
             'is_active' => $this->is_active,
             'is_featured' => $this->is_featured,
             'featured_order' => $this->featured_order,

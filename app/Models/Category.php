@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 #[Fillable([
     'name', 
     'slug', 
-    'image_path', 
     'is_active', 
     'is_featured', 
     'featured_order', 
@@ -22,6 +21,12 @@ class Category extends Model
     {
         parent::boot();
         static::creating(function ($category) {
+            if (empty($category->slug)) {
+                $category->slug = Str::slug($category->name);
+            }
+        });
+        
+        static::updating(function ($category) {
             if (empty($category->slug)) {
                 $category->slug = Str::slug($category->name);
             }
