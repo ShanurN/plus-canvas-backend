@@ -22,7 +22,8 @@ class BrandController extends Controller
         parameters: [
             new OA\Parameter(name: "name", in: "query", schema: new OA\Schema(type: "string")),
             new OA\Parameter(name: "featured_order", in: "query", schema: new OA\Schema(type: "integer")),
-            new OA\Parameter(name: "per_page", in: "query", schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "limit", in: "query", schema: new OA\Schema(type: "integer", default: 15)),
+            new OA\Parameter(name: "offset", in: "query", schema: new OA\Schema(type: "integer", default: 0)),
         ],
         responses: [
             new OA\Response(response: 200, description: "List of brands", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/BrandResource")))
@@ -42,7 +43,9 @@ class BrandController extends Controller
 
         $brands = $query->orderBy('featured_order', 'asc')
             ->orderBy('id', 'desc')
-            ->paginate($request->integer('per_page', 15));
+            ->skip($request->integer('offset', 0))
+            ->take($request->integer('limit', 15))
+            ->get();
 
         return BrandResource::collection($brands);
     }

@@ -5,7 +5,23 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    title: "DiscountResource",
+    description: "Discount resource representation",
+    properties: [
+        new OA\Property(property: "id", type: "integer"),
+        new OA\Property(property: "title", type: "string"),
+        new OA\Property(property: "description", type: "string"),
+        new OA\Property(property: "image", type: "string"),
+        new OA\Property(property: "image_url", type: "string"),
+        new OA\Property(property: "is_active", type: "boolean"),
+        new OA\Property(property: "order", type: "integer"),
+        new OA\Property(property: "created_at", type: "string", format: "date-time"),
+        new OA\Property(property: "updated_at", type: "string", format: "date-time"),
+    ]
+)]
 class DiscountResource extends JsonResource
 {
     /**

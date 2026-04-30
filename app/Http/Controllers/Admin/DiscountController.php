@@ -24,10 +24,11 @@ class DiscountController extends Controller
             new OA\Parameter(name: "title", in: "query", schema: new OA\Schema(type: "string")),
             new OA\Parameter(name: "is_active", in: "query", schema: new OA\Schema(type: "boolean")),
             new OA\Parameter(name: "order", in: "query", schema: new OA\Schema(type: "integer")),
-            new OA\Parameter(name: "per_page", in: "query", schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "limit", in: "query", schema: new OA\Schema(type: "integer", default: 15)),
+            new OA\Parameter(name: "offset", in: "query", schema: new OA\Schema(type: "integer", default: 0)),
         ],
         responses: [
-            new OA\Response(response: 200, description: "List of discounts")
+            new OA\Response(response: 200, description: "List of discounts", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/DiscountResource")))
         ]
     )]
     public function index(Request $request): AnonymousResourceCollection
@@ -46,7 +47,11 @@ class DiscountController extends Controller
             $query->where('order', $request->order);
         }
 
-        $discounts = $query->orderBy('order')->orderBy('id', 'desc')->paginate($request->integer('per_page', 15));
+        $discounts = $query->orderBy('order')
+            ->orderBy('id', 'desc')
+            ->skip($request->integer('offset', 0))
+            ->take($request->integer('limit', 15))
+            ->get();
 
         return DiscountResource::collection($discounts);
     }
@@ -73,7 +78,7 @@ class DiscountController extends Controller
             )
         ),
         responses: [
-            new OA\Response(response: 201, description: "Discount created"),
+            new OA\Response(response: 201, description: "Discount created", content: new OA\JsonContent(ref: "#/components/schemas/DiscountResource")),
             new OA\Response(response: 422, description: "Validation error")
         ]
     )]
@@ -100,7 +105,8 @@ class DiscountController extends Controller
         security: [["apiAuth" => []]],
         parameters: [new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))],
         responses: [
-            new OA\Response(response: 200, description: "Discount details")
+            new OA\Response(response: 200, description: "Discount details", content: new OA\JsonContent(ref: "#/components/schemas/DiscountResource")),
+            new OA\Response(response: 404, description: "Discount not found")
         ]
     )]
     public function show(Discount $discount): DiscountResource
@@ -131,7 +137,7 @@ class DiscountController extends Controller
             )
         ),
         responses: [
-            new OA\Response(response: 200, description: "Discount updated"),
+            new OA\Response(response: 200, description: "Discount updated", content: new OA\JsonContent(ref: "#/components/schemas/DiscountResource")),
             new OA\Response(response: 404, description: "Discount not found")
         ]
     )]

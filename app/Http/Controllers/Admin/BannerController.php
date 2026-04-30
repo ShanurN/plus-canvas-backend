@@ -20,6 +20,10 @@ class BannerController extends Controller
         summary: "Get list of all banners (Admin)",
         tags: ["Banners"],
         security: [["apiAuth" => []]],
+        parameters: [
+            new OA\Parameter(name: "limit", in: "query", schema: new OA\Schema(type: "integer", default: 15)),
+            new OA\Parameter(name: "offset", in: "query", schema: new OA\Schema(type: "integer", default: 0)),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -28,10 +32,12 @@ class BannerController extends Controller
             )
         ]
     )]
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
         $banners = Banner::orderBy('order')
             ->orderBy('created_at', 'desc')
+            ->skip($request->integer('offset', 0))
+            ->take($request->integer('limit', 15))
             ->get();
 
         return BannerResource::collection($banners);

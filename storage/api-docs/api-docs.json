@@ -149,6 +149,24 @@
                 ],
                 "summary": "Get list of all banners (Admin)",
                 "operationId": "281d42a28df6c8a4ed7010b6cb156534",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of all banners",
@@ -440,10 +458,19 @@
                         }
                     },
                     {
-                        "name": "per_page",
+                        "name": "limit",
                         "in": "query",
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
                         }
                     }
                 ],
@@ -717,10 +744,19 @@
                         }
                     },
                     {
-                        "name": "per_page",
+                        "name": "limit",
                         "in": "query",
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
                         }
                     }
                 ],
@@ -986,16 +1022,35 @@
                         }
                     },
                     {
-                        "name": "per_page",
+                        "name": "limit",
                         "in": "query",
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of discounts"
+                        "description": "List of discounts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DiscountResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -1043,7 +1098,14 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Discount created"
+                        "description": "Discount created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DiscountResource"
+                                }
+                            }
+                        }
                     },
                     "422": {
                         "description": "Validation error"
@@ -1075,7 +1137,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Discount details"
+                        "description": "Discount details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DiscountResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Discount not found"
                     }
                 },
                 "security": [
@@ -1134,7 +1206,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Discount updated"
+                        "description": "Discount updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DiscountResource"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Discount not found"
@@ -1370,40 +1449,40 @@
     "components": {
         "schemas": {
             "BannerResource": {
-                "title": "Banner Resource",
-                "description": "Hero banner details",
+                "title": "BannerResource",
+                "description": "Banner resource representation",
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "example": 1
+                        "type": "integer"
                     },
                     "title": {
-                        "type": "string",
-                        "example": "Big Sale"
+                        "type": "string"
                     },
                     "description": {
-                        "type": "string",
-                        "example": "Up to 50% off"
+                        "type": "string"
                     },
                     "image": {
-                        "type": "string",
-                        "example": "banners/image.jpg"
+                        "type": "string"
                     },
                     "image_url": {
-                        "type": "string",
-                        "example": "http://localhost:8000/storage/banners/image.jpg"
+                        "type": "string"
                     },
                     "url": {
-                        "type": "string",
-                        "example": "/shop/sales"
-                    },
-                    "order": {
-                        "type": "integer",
-                        "example": 1
+                        "type": "string"
                     },
                     "is_active": {
-                        "type": "boolean",
-                        "example": true
+                        "type": "boolean"
+                    },
+                    "order": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -1455,6 +1534,42 @@
                         "type": "boolean"
                     },
                     "featured_order": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "DiscountResource": {
+                "title": "DiscountResource",
+                "description": "Discount resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "image_url": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "order": {
                         "type": "integer"
                     },
                     "created_at": {
