@@ -48,8 +48,6 @@ Route::get('/categories/most-searched', [PublicCategoryController::class, 'mostS
 
 // Brand Routes
 Route::get('/brands', [PublicBrandController::class, 'index']);
-Route::get('/brands/featured', [PublicBrandController::class, 'featured']);
-Route::get('/brands/most-searched', [PublicBrandController::class, 'mostSearched']);
 
 // Discount Routes
 Route::get('/discounts', [PublicDiscountController::class, 'index']);

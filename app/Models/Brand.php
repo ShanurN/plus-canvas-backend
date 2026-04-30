@@ -10,10 +10,7 @@ use Illuminate\Support\Str;
     'name', 
     'slug', 
     'is_active', 
-    'is_featured', 
-    'featured_order', 
-    'is_most_searched', 
-    'most_searched_order'
+    'featured_order',
 ])]
 class Brand extends Model
 {
@@ -37,20 +34,7 @@ class Brand extends Model
     {
         return [
             'is_active' => 'boolean',
-            'is_featured' => 'boolean',
             'featured_order' => 'integer',
-            'is_most_searched' => 'boolean',
-            'most_searched_order' => 'integer',
         ];
-    }
-
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', true)->orderBy('featured_order');
-    }
-
-    public function scopeMostSearched($query)
-    {
-        return $query->where('is_most_searched', true)->orderBy('most_searched_order');
     }
 }

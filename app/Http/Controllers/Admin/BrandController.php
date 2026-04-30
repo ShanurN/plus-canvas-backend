@@ -21,10 +21,7 @@ class BrandController extends Controller
         security: [["apiAuth" => []]],
         parameters: [
             new OA\Parameter(name: "name", in: "query", schema: new OA\Schema(type: "string")),
-            new OA\Parameter(name: "is_featured", in: "query", schema: new OA\Schema(type: "boolean")),
-            new OA\Parameter(name: "is_most_searched", in: "query", schema: new OA\Schema(type: "boolean")),
             new OA\Parameter(name: "featured_order", in: "query", schema: new OA\Schema(type: "integer")),
-            new OA\Parameter(name: "most_searched_order", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "per_page", in: "query", schema: new OA\Schema(type: "integer")),
         ],
         responses: [
@@ -39,20 +36,8 @@ class BrandController extends Controller
             $query->where('name', 'like', '%' . $request->name . '%');
         }
 
-        if ($request->has('is_featured')) {
-            $query->where('is_featured', filter_var($request->is_featured, FILTER_VALIDATE_BOOLEAN));
-        }
-
-        if ($request->has('is_most_searched')) {
-            $query->where('is_most_searched', filter_var($request->is_most_searched, FILTER_VALIDATE_BOOLEAN));
-        }
-
         if ($request->filled('featured_order')) {
             $query->where('featured_order', $request->featured_order);
-        }
-
-        if ($request->filled('most_searched_order')) {
-            $query->where('most_searched_order', $request->most_searched_order);
         }
 
         $brands = $query->orderBy('id', 'desc')->paginate($request->integer('per_page', 15));
@@ -75,10 +60,7 @@ class BrandController extends Controller
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
-                        new OA\Property(property: "is_featured", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
-                        new OA\Property(property: "is_most_searched", type: "boolean"),
-                        new OA\Property(property: "most_searched_order", type: "integer"),
                     ]
                 )
             )
@@ -129,10 +111,7 @@ class BrandController extends Controller
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
-                        new OA\Property(property: "is_featured", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
-                        new OA\Property(property: "is_most_searched", type: "boolean"),
-                        new OA\Property(property: "most_searched_order", type: "integer"),
                     ]
                 )
             )
@@ -180,10 +159,7 @@ class BrandController extends Controller
                     new OA\Property(property: "items", type: "array", items: new OA\Items(
                         properties: [
                             new OA\Property(property: "id", type: "integer"),
-                            new OA\Property(property: "is_featured", type: "boolean"),
                             new OA\Property(property: "featured_order", type: "integer"),
-                            new OA\Property(property: "is_most_searched", type: "boolean"),
-                            new OA\Property(property: "most_searched_order", type: "integer"),
                         ]
                     ))
                 ]
@@ -198,10 +174,7 @@ class BrandController extends Controller
         $request->validate([
             'items' => ['required', 'array'],
             'items.*.id' => ['required', 'exists:brands,id'],
-            'items.*.is_featured' => ['nullable', 'boolean'],
             'items.*.featured_order' => ['nullable', 'integer'],
-            'items.*.is_most_searched' => ['nullable', 'boolean'],
-            'items.*.most_searched_order' => ['nullable', 'integer'],
         ]);
 
         foreach ($request->items as $item) {

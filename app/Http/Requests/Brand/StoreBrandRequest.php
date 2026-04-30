@@ -17,10 +17,7 @@ class StoreBrandRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:brands,slug'],
             'is_active' => ['nullable', 'boolean'],
-            'is_featured' => ['nullable', 'boolean'],
             'featured_order' => ['nullable', 'integer'],
-            'is_most_searched' => ['nullable', 'boolean'],
-            'most_searched_order' => ['nullable', 'integer'],
         ];
     }
 }
