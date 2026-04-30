@@ -758,10 +758,10 @@
                         }
                     },
                     {
-                        "name": "is_featured",
+                        "name": "featured_order",
                         "in": "query",
                         "schema": {
-                            "type": "boolean"
+                            "type": "integer"
                         }
                     },
                     {
@@ -769,13 +769,6 @@
                         "in": "query",
                         "schema": {
                             "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "featured_order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
                         }
                     },
                     {
@@ -836,9 +829,6 @@
                                         "type": "string"
                                     },
                                     "is_active": {
-                                        "type": "boolean"
-                                    },
-                                    "is_featured": {
                                         "type": "boolean"
                                     },
                                     "featured_order": {
@@ -935,9 +925,6 @@
                                     "is_active": {
                                         "type": "boolean"
                                     },
-                                    "is_featured": {
-                                        "type": "boolean"
-                                    },
                                     "featured_order": {
                                         "type": "integer"
                                     }
@@ -1005,9 +992,6 @@
                                             "properties": {
                                                 "id": {
                                                     "type": "integer"
-                                                },
-                                                "is_featured": {
-                                                    "type": "boolean"
                                                 },
                                                 "featured_order": {
                                                     "type": "integer"
@@ -1433,30 +1417,6 @@
                 }
             }
         },
-        "/api/categories/featured": {
-            "get": {
-                "tags": [
-                    "Frontend - Categories"
-                ],
-                "summary": "Get featured categories for home page",
-                "operationId": "2511468173f31ab58058f5515d5a6724",
-                "responses": {
-                    "200": {
-                        "description": "List of featured categories",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CategoryResource"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/categories/most-searched": {
             "get": {
                 "tags": [
@@ -1641,9 +1601,6 @@
                         "type": "string"
                     },
                     "is_active": {
-                        "type": "boolean"
-                    },
-                    "is_featured": {
                         "type": "boolean"
                     },
                     "featured_order": {

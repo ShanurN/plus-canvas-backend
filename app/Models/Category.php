@@ -10,8 +10,7 @@ use Illuminate\Support\Str;
     'name', 
     'slug', 
     'is_active', 
-    'is_featured', 
-    'featured_order', 
+    'featured_order',
     'is_most_searched', 
     'most_searched_order'
 ])]
@@ -37,19 +36,10 @@ class Category extends Model
     {
         return [
             'is_active' => 'boolean',
-            'is_featured' => 'boolean',
             'featured_order' => 'integer',
             'is_most_searched' => 'boolean',
             'most_searched_order' => 'integer',
         ];
-    }
-
-    /**
-     * Scope for featured categories
-     */
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', true)->orderBy('featured_order');
     }
 
     /**

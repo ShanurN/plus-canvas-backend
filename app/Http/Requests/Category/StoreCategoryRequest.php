@@ -17,7 +17,6 @@ class StoreCategoryRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug'],
             'is_active' => ['nullable', 'boolean'],
-            'is_featured' => ['nullable', 'boolean'],
             'featured_order' => ['nullable', 'integer'],
         ];
     }
@@ -26,9 +25,6 @@ class StoreCategoryRequest extends FormRequest
     {
         if ($this->has('is_active')) {
             $this->merge(['is_active' => filter_var($this->is_active, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)]);
-        }
-        if ($this->has('is_featured')) {
-            $this->merge(['is_featured' => filter_var($this->is_featured, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)]);
         }
     }
 }
