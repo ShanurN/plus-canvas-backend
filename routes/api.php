@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\Api\BannerController as PublicBannerController;
 use App\Http\Controllers\Api\CategoryController as PublicCategoryController;
+use App\Http\Controllers\Api\DiscountController as PublicDiscountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +25,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])
         ->middleware('throttle:10,1'); // Limit login attempts
 
+    // Handle unauthenticated redirects
+    Route::get('/login', function () {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    })->name('login');
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -37,6 +44,10 @@ Route::get('/banners/{banner}', [PublicBannerController::class, 'show']);
 Route::get('/categories', [PublicCategoryController::class, 'index']);
 Route::get('/categories/featured', [PublicCategoryController::class, 'featured']);
 Route::get('/categories/most-searched', [PublicCategoryController::class, 'mostSearched']);
+
+// Discount Routes
+Route::get('/discounts', [PublicDiscountController::class, 'index']);
+Route::get('/discounts/{id}', [PublicDiscountController::class, 'show']);
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/banners', [AdminBannerController::class, 'index']);
@@ -53,4 +64,12 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/categories/reorder', [AdminCategoryController::class, 'reorder']);
     Route::post('/categories/{category}', [AdminCategoryController::class, 'update']); // for multipart
     Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
+
+    // Discount Routes
+    Route::get('/discounts', [AdminDiscountController::class, 'index']);
+    Route::post('/discounts', [AdminDiscountController::class, 'store']);
+    Route::get('/discounts/{discount}', [AdminDiscountController::class, 'show']);
+    Route::post('/discounts/reorder', [AdminDiscountController::class, 'reorder']);
+    Route::post('/discounts/{discount}', [AdminDiscountController::class, 'update']); // for multipart
+    Route::delete('/discounts/{discount}', [AdminDiscountController::class, 'destroy']);
 });

@@ -500,10 +500,6 @@
                                     "slug": {
                                         "type": "string"
                                     },
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
                                     "is_active": {
                                         "type": "boolean"
                                     },
@@ -584,10 +580,6 @@
                                     "slug": {
                                         "type": "string"
                                     },
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
                                     "is_active": {
                                         "type": "boolean"
                                     },
@@ -665,6 +657,269 @@
                                                     "type": "boolean"
                                                 },
                                                 "most_searched_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/discounts": {
+            "get": {
+                "tags": [
+                    "Admin - Discounts"
+                ],
+                "summary": "Get list of discounts with filters",
+                "operationId": "75e4187b4c1572eec0236a734a091484",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of discounts"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Discounts"
+                ],
+                "summary": "Create a new discount",
+                "operationId": "d7c196b0496c512a0f4c0c91f87fbf5a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Discount created"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/discounts/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Discounts"
+                ],
+                "summary": "Get single discount",
+                "operationId": "6b129d02a8a18a0c4d5083832810af4a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Discount details"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Discounts"
+                ],
+                "summary": "Update discount",
+                "description": "Use POST with _method=PUT for multipart/form-data updates",
+                "operationId": "ff533c8c6680e6e6746c2ded870d71d3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Discount updated"
+                    },
+                    "404": {
+                        "description": "Discount not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Discounts"
+                ],
+                "summary": "Delete discount",
+                "operationId": "4730fc0d30663b3a042679576a6d9857",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Discount deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/discounts/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Discounts"
+                ],
+                "summary": "Batch update discounts order",
+                "operationId": "1ed81cfe2cb1752e29a4f29de6f6d1d8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "order": {
                                                     "type": "integer"
                                                 }
                                             },
@@ -788,6 +1043,47 @@
                     }
                 }
             }
+        },
+        "/api/discounts": {
+            "get": {
+                "tags": [
+                    "Frontend - Discounts"
+                ],
+                "summary": "Get active discounts",
+                "operationId": "eaa03209dcdee72030b74953ddb84bee",
+                "responses": {
+                    "200": {
+                        "description": "List of active discounts"
+                    }
+                }
+            }
+        },
+        "/api/discounts/{id}": {
+            "get": {
+                "tags": [
+                    "Frontend - Discounts"
+                ],
+                "summary": "Get single active discount details",
+                "operationId": "00178dc9f7f203e911afc5909d70ee68",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Discount details"
+                    },
+                    "404": {
+                        "description": "Discount not found"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -807,6 +1103,10 @@
                     "description": {
                         "type": "string",
                         "example": "Up to 50% off"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "banners/image.jpg"
                     },
                     "image_url": {
                         "type": "string",
@@ -881,12 +1181,20 @@
             "description": "Admin - Categories"
         },
         {
+            "name": "Admin - Discounts",
+            "description": "Admin - Discounts"
+        },
+        {
             "name": "Frontend - Banners",
             "description": "Frontend - Banners"
         },
         {
             "name": "Frontend - Categories",
             "description": "Frontend - Categories"
+        },
+        {
+            "name": "Frontend - Discounts",
+            "description": "Frontend - Discounts"
         }
     ]
 }

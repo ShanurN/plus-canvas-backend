@@ -85,7 +85,7 @@ class BannerController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('banners', 'public');
+            $data['image'] = $request->file('image')->store('banners', 'public');
         }
 
         $banner = Banner::create($data);
@@ -129,10 +129,10 @@ class BannerController extends Controller
 
         if ($request->hasFile('image')) {
             // Delete old image
-            if ($banner->image_path) {
-                Storage::disk('public')->delete($banner->image_path);
+            if ($banner->image) {
+                Storage::disk('public')->delete($banner->image);
             }
-            $data['image_path'] = $request->file('image')->store('banners', 'public');
+            $data['image'] = $request->file('image')->store('banners', 'public');
         }
 
         $banner->update($data);
@@ -153,8 +153,8 @@ class BannerController extends Controller
     )]
     public function destroy(Banner $banner): JsonResponse
     {
-        if ($banner->image_path) {
-            Storage::disk('public')->delete($banner->image_path);
+        if ($banner->image) {
+            Storage::disk('public')->delete($banner->image);
         }
 
         $banner->delete();
