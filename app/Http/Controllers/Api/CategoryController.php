@@ -15,7 +15,7 @@ class CategoryController extends Controller
         summary: "Get featured categories for home page",
         tags: ["Frontend - Categories"],
         responses: [
-            new OA\Response(response: 200, description: "List of featured categories")
+            new OA\Response(response: 200, description: "List of featured categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
         ]
     )]
     public function featured(): AnonymousResourceCollection
@@ -33,7 +33,7 @@ class CategoryController extends Controller
         summary: "Get most searched categories for home page",
         tags: ["Frontend - Categories"],
         responses: [
-            new OA\Response(response: 200, description: "List of most searched categories")
+            new OA\Response(response: 200, description: "List of most searched categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
         ]
     )]
     public function mostSearched(): AnonymousResourceCollection
@@ -51,7 +51,7 @@ class CategoryController extends Controller
         summary: "Get all active categories",
         tags: ["Frontend - Categories"],
         responses: [
-            new OA\Response(response: 200, description: "List of categories")
+            new OA\Response(response: 200, description: "List of categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
         ]
     )]
     public function index(): AnonymousResourceCollection

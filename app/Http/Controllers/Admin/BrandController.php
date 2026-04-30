@@ -3,22 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\StoreCategoryRequest;
-use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Http\Requests\Brand\StoreBrandRequest;
+use App\Http\Requests\Brand\UpdateBrandRequest;
+use App\Http\Resources\BrandResource;
+use App\Models\Brand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Storage;
 use OpenApi\Attributes as OA;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
     #[OA\Get(
-        path: "/api/admin/categories",
-        summary: "Get list of categories with filters",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/brands",
+        summary: "Get list of brands with filters",
+        tags: ["Admin - Brands"],
         security: [["apiAuth" => []]],
         parameters: [
             new OA\Parameter(name: "name", in: "query", schema: new OA\Schema(type: "string")),
@@ -29,12 +28,12 @@ class CategoryController extends Controller
             new OA\Parameter(name: "per_page", in: "query", schema: new OA\Schema(type: "integer")),
         ],
         responses: [
-            new OA\Response(response: 200, description: "List of categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
+            new OA\Response(response: 200, description: "List of brands", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/BrandResource")))
         ]
     )]
     public function index(Request $request): AnonymousResourceCollection
     {
-        $query = Category::query();
+        $query = Brand::query();
 
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->name . '%');
@@ -56,20 +55,20 @@ class CategoryController extends Controller
             $query->where('most_searched_order', $request->most_searched_order);
         }
 
-        $categories = $query->orderBy('id', 'desc')->paginate($request->integer('per_page', 15));
+        $brands = $query->orderBy('id', 'desc')->paginate($request->integer('per_page', 15));
 
-        return CategoryResource::collection($categories);
+        return BrandResource::collection($brands);
     }
 
     #[OA\Post(
-        path: "/api/admin/categories",
-        summary: "Create a new category",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/brands",
+        summary: "Create a new brand",
+        tags: ["Admin - Brands"],
         security: [["apiAuth" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\MediaType(
-                mediaType: "multipart/form-data",
+                mediaType: "application/json",
                 schema: new OA\Schema(
                     required: ["name"],
                     properties: [
@@ -78,97 +77,101 @@ class CategoryController extends Controller
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "is_featured", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
+                        new OA\Property(property: "is_most_searched", type: "boolean"),
+                        new OA\Property(property: "most_searched_order", type: "integer"),
                     ]
                 )
             )
         ),
         responses: [
-            new OA\Response(response: 201, description: "Category created", content: new OA\JsonContent(ref: "#/components/schemas/CategoryResource")),
+            new OA\Response(response: 201, description: "Brand created", content: new OA\JsonContent(ref: "#/components/schemas/BrandResource")),
             new OA\Response(response: 422, description: "Validation error")
         ]
     )]
-    public function store(StoreCategoryRequest $request): JsonResponse
+    public function store(StoreBrandRequest $request): JsonResponse
     {
         $data = $request->validated();
 
-        $category = Category::create($data);
+        $brand = Brand::create($data);
 
-        return (new CategoryResource($category))
+        return (new BrandResource($brand))
             ->response()
             ->setStatusCode(201);
     }
 
     #[OA\Get(
-        path: "/api/admin/categories/{id}",
-        summary: "Get single category",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/brands/{id}",
+        summary: "Get single brand",
+        tags: ["Admin - Brands"],
         security: [["apiAuth" => []]],
+        parameters: [new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))],
         responses: [
-            new OA\Response(response: 200, description: "Category details", content: new OA\JsonContent(ref: "#/components/schemas/CategoryResource")),
-            new OA\Response(response: 404, description: "Category not found")
+            new OA\Response(response: 200, description: "Brand details", content: new OA\JsonContent(ref: "#/components/schemas/BrandResource")),
+            new OA\Response(response: 404, description: "Brand not found")
         ]
     )]
-    public function show(Category $category): CategoryResource
+    public function show(Brand $brand): BrandResource
     {
-        return new CategoryResource($category);
+        return new BrandResource($brand);
     }
 
-    #[OA\Post(
-        path: "/api/admin/categories/{id}",
-        summary: "Update category",
-        description: "Use POST with _method=PUT for multipart/form-data updates",
-        tags: ["Admin - Categories"],
+    #[OA\Put(
+        path: "/api/admin/brands/{id}",
+        summary: "Update brand",
+        tags: ["Admin - Brands"],
         security: [["apiAuth" => []]],
         parameters: [new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(
-                mediaType: "multipart/form-data",
+                mediaType: "application/json",
                 schema: new OA\Schema(
                     properties: [
-                        new OA\Property(property: "_method", type: "string", example: "PUT"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "is_featured", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
+                        new OA\Property(property: "is_most_searched", type: "boolean"),
+                        new OA\Property(property: "most_searched_order", type: "integer"),
                     ]
                 )
             )
         ),
         responses: [
-            new OA\Response(response: 200, description: "Category updated", content: new OA\JsonContent(ref: "#/components/schemas/CategoryResource")),
-            new OA\Response(response: 404, description: "Category not found")
+            new OA\Response(response: 200, description: "Brand updated", content: new OA\JsonContent(ref: "#/components/schemas/BrandResource")),
+            new OA\Response(response: 404, description: "Brand not found")
         ]
     )]
-    public function update(UpdateCategoryRequest $request, Category $category): CategoryResource
+    public function update(UpdateBrandRequest $request, Brand $brand): BrandResource
     {
         $data = $request->validated();
 
-        $category->update($data);
+        $brand->update($data);
 
-        return new CategoryResource($category);
+        return new BrandResource($brand);
     }
 
     #[OA\Delete(
-        path: "/api/admin/categories/{id}",
-        summary: "Delete category",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/brands/{id}",
+        summary: "Delete brand",
+        tags: ["Admin - Brands"],
         security: [["apiAuth" => []]],
+        parameters: [new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))],
         responses: [
-            new OA\Response(response: 204, description: "Category deleted")
+            new OA\Response(response: 204, description: "Brand deleted")
         ]
     )]
-    public function destroy(Category $category): JsonResponse
+    public function destroy(Brand $brand): JsonResponse
     {
-        $category->delete();
+        $brand->delete();
 
         return response()->json(null, 204);
     }
 
     #[OA\Post(
-        path: "/api/admin/categories/reorder",
-        summary: "Batch update categories order/blocks",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/brands/reorder",
+        summary: "Batch update brands order/blocks",
+        tags: ["Admin - Brands"],
         security: [["apiAuth" => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -194,7 +197,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'items' => ['required', 'array'],
-            'items.*.id' => ['required', 'exists:categories,id'],
+            'items.*.id' => ['required', 'exists:brands,id'],
             'items.*.is_featured' => ['nullable', 'boolean'],
             'items.*.featured_order' => ['nullable', 'integer'],
             'items.*.is_most_searched' => ['nullable', 'boolean'],
@@ -202,10 +205,10 @@ class CategoryController extends Controller
         ]);
 
         foreach ($request->items as $item) {
-            $category = Category::find($item['id']);
-            $category->update(array_filter($item, fn($key) => $key !== 'id', ARRAY_FILTER_USE_KEY));
+            $brand = Brand::find($item['id']);
+            $brand->update(array_filter($item, fn($key) => $key !== 'id', ARRAY_FILTER_USE_KEY));
         }
 
-        return response()->json(['message' => 'Categories updated successfully']);
+        return response()->json(['message' => 'Brands updated successfully']);
     }
 }

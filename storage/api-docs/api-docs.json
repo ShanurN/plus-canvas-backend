@@ -417,6 +417,331 @@
                 ]
             }
         },
+        "/api/admin/brands": {
+            "get": {
+                "tags": [
+                    "Admin - Brands"
+                ],
+                "summary": "Get list of brands with filters",
+                "operationId": "3c1f8e34fbbfd2c129afeefe329f3376",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_featured",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "is_most_searched",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "featured_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "most_searched_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BrandResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Brands"
+                ],
+                "summary": "Create a new brand",
+                "operationId": "039711be34b889a120da67f8b0c3bb51",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    },
+                                    "is_most_searched": {
+                                        "type": "boolean"
+                                    },
+                                    "most_searched_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Brand created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/brands/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Brands"
+                ],
+                "summary": "Get single brand",
+                "operationId": "cbfe6f0287bae004871a859349d49835",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brand details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin - Brands"
+                ],
+                "summary": "Update brand",
+                "operationId": "5ea3c8ca0a4c31a7f0a2a28615c38ac7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    },
+                                    "is_most_searched": {
+                                        "type": "boolean"
+                                    },
+                                    "most_searched_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Brand updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Brands"
+                ],
+                "summary": "Delete brand",
+                "operationId": "6fde73c298d9bde6dddad55dc03b53f5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Brand deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/brands/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Brands"
+                ],
+                "summary": "Batch update brands order/blocks",
+                "operationId": "273e9ef994112ae29d48609f994cf198",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "is_featured": {
+                                                    "type": "boolean"
+                                                },
+                                                "featured_order": {
+                                                    "type": "integer"
+                                                },
+                                                "is_most_searched": {
+                                                    "type": "boolean"
+                                                },
+                                                "most_searched_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/categories": {
             "get": {
                 "tags": [
@@ -470,7 +795,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of categories"
+                        "description": "List of categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -517,7 +852,14 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Category created"
+                        "description": "Category created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryResource"
+                                }
+                            }
+                        }
                     },
                     "422": {
                         "description": "Validation error"
@@ -539,7 +881,17 @@
                 "operationId": "a0f286818f967a75235ac08e9ce3a34d",
                 "responses": {
                     "200": {
-                        "description": "Category details"
+                        "description": "Category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found"
                     }
                 },
                 "security": [
@@ -597,7 +949,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Category updated"
+                        "description": "Category updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryResource"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Category not found"
@@ -1002,6 +1361,78 @@
                 }
             }
         },
+        "/api/brands/featured": {
+            "get": {
+                "tags": [
+                    "Frontend - Brands"
+                ],
+                "summary": "Get featured brands for home page",
+                "operationId": "88547ae6a70d145fa469913a9bc5b369",
+                "responses": {
+                    "200": {
+                        "description": "List of featured brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BrandResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/brands/most-searched": {
+            "get": {
+                "tags": [
+                    "Frontend - Brands"
+                ],
+                "summary": "Get most searched brands for home page",
+                "operationId": "bd5b8bb8d16eda336b0f412cf56f8a3c",
+                "responses": {
+                    "200": {
+                        "description": "List of most searched brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BrandResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/brands": {
+            "get": {
+                "tags": [
+                    "Frontend - Brands"
+                ],
+                "summary": "Get all active brands",
+                "operationId": "130f2bd423b6fe2355253e2c39878d99",
+                "responses": {
+                    "200": {
+                        "description": "List of brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BrandResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/categories/featured": {
             "get": {
                 "tags": [
@@ -1011,7 +1442,17 @@
                 "operationId": "2511468173f31ab58058f5515d5a6724",
                 "responses": {
                     "200": {
-                        "description": "List of featured categories"
+                        "description": "List of featured categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1025,7 +1466,17 @@
                 "operationId": "37ee12511ef4fc26161d17c30e778ff1",
                 "responses": {
                     "200": {
-                        "description": "List of most searched categories"
+                        "description": "List of most searched categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1039,7 +1490,17 @@
                 "operationId": "ac9c4d978ea4e5b72915ca9728e5b8b1",
                 "responses": {
                     "200": {
-                        "description": "List of categories"
+                        "description": "List of categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1127,6 +1588,84 @@
                 },
                 "type": "object"
             },
+            "BrandResource": {
+                "title": "BrandResource",
+                "description": "Brand resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "is_featured": {
+                        "type": "boolean"
+                    },
+                    "featured_order": {
+                        "type": "integer"
+                    },
+                    "is_most_searched": {
+                        "type": "boolean"
+                    },
+                    "most_searched_order": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "title": "CategoryResource",
+                "description": "Category resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "is_featured": {
+                        "type": "boolean"
+                    },
+                    "featured_order": {
+                        "type": "integer"
+                    },
+                    "is_most_searched": {
+                        "type": "boolean"
+                    },
+                    "most_searched_order": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "UserResource": {
                 "title": "User Resource",
                 "description": "User details response",
@@ -1177,6 +1716,10 @@
             "description": "Banners"
         },
         {
+            "name": "Admin - Brands",
+            "description": "Admin - Brands"
+        },
+        {
             "name": "Admin - Categories",
             "description": "Admin - Categories"
         },
@@ -1187,6 +1730,10 @@
         {
             "name": "Frontend - Banners",
             "description": "Frontend - Banners"
+        },
+        {
+            "name": "Frontend - Brands",
+            "description": "Frontend - Brands"
         },
         {
             "name": "Frontend - Categories",

@@ -4,12 +4,11 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    title: "CategoryResource",
-    description: "Category resource representation",
+    title: "BrandResource",
+    description: "Brand resource representation",
     properties: [
         new OA\Property(property: "id", type: "integer"),
         new OA\Property(property: "name", type: "string"),
@@ -23,13 +22,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "updated_at", type: "string", format: "date-time"),
     ]
 )]
-class CategoryResource extends JsonResource
+class BrandResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [

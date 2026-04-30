@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
+use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\Api\BannerController as PublicBannerController;
+use App\Http\Controllers\Api\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\CategoryController as PublicCategoryController;
 use App\Http\Controllers\Api\DiscountController as PublicDiscountController;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +47,11 @@ Route::get('/categories', [PublicCategoryController::class, 'index']);
 Route::get('/categories/featured', [PublicCategoryController::class, 'featured']);
 Route::get('/categories/most-searched', [PublicCategoryController::class, 'mostSearched']);
 
+// Brand Routes
+Route::get('/brands', [PublicBrandController::class, 'index']);
+Route::get('/brands/featured', [PublicBrandController::class, 'featured']);
+Route::get('/brands/most-searched', [PublicBrandController::class, 'mostSearched']);
+
 // Discount Routes
 Route::get('/discounts', [PublicDiscountController::class, 'index']);
 Route::get('/discounts/{id}', [PublicDiscountController::class, 'show']);
@@ -64,6 +71,14 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/categories/reorder', [AdminCategoryController::class, 'reorder']);
     Route::post('/categories/{category}', [AdminCategoryController::class, 'update']); // for multipart
     Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
+
+    // Brand Routes
+    Route::get('/brands', [AdminBrandController::class, 'index']);
+    Route::post('/brands', [AdminBrandController::class, 'store']);
+    Route::get('/brands/{brand}', [AdminBrandController::class, 'show']);
+    Route::post('/brands/reorder', [AdminBrandController::class, 'reorder']);
+    Route::put('/brands/{brand}', [AdminBrandController::class, 'update']);
+    Route::delete('/brands/{brand}', [AdminBrandController::class, 'destroy']);
 
     // Discount Routes
     Route::get('/discounts', [AdminDiscountController::class, 'index']);
