@@ -3,10 +3,14 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 use App\Http\Controllers\Admin\BrandController as AdminBrandController;
+use App\Http\Controllers\Admin\CanvasFormatController as AdminCanvasFormatController;
+use App\Http\Controllers\Admin\CanvasSizeController as AdminCanvasSizeController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\Api\BannerController as PublicBannerController;
 use App\Http\Controllers\Api\BrandController as PublicBrandController;
+use App\Http\Controllers\Api\CanvasFormatController as PublicCanvasFormatController;
+use App\Http\Controllers\Api\CanvasSizeController as PublicCanvasSizeController;
 use App\Http\Controllers\Api\CategoryController as PublicCategoryController;
 use App\Http\Controllers\Api\DiscountController as PublicDiscountController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +56,12 @@ Route::get('/brands', [PublicBrandController::class, 'index']);
 Route::get('/discounts', [PublicDiscountController::class, 'index']);
 Route::get('/discounts/{id}', [PublicDiscountController::class, 'show']);
 
+// Canvas Size Routes
+Route::get('/canvas-sizes', [PublicCanvasSizeController::class, 'index']);
+
+// Canvas Format Routes
+Route::get('/canvas-formats', [PublicCanvasFormatController::class, 'index']);
+
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/banners', [AdminBannerController::class, 'index']);
     Route::get('/banners/{banner}', [AdminBannerController::class, 'show']);
@@ -83,4 +93,21 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/discounts/reorder', [AdminDiscountController::class, 'reorder']);
     Route::post('/discounts/{discount}', [AdminDiscountController::class, 'update']); // for multipart
     Route::delete('/discounts/{discount}', [AdminDiscountController::class, 'destroy']);
+
+    // Canvas Size Routes
+    Route::get('/canvas-sizes', [AdminCanvasSizeController::class, 'index']);
+    Route::post('/canvas-sizes', [AdminCanvasSizeController::class, 'store']);
+    Route::get('/canvas-sizes/{canvasSize}', [AdminCanvasSizeController::class, 'show']);
+    Route::post('/canvas-sizes/reorder', [AdminCanvasSizeController::class, 'reorder']);
+    Route::put('/canvas-sizes/{canvasSize}', [AdminCanvasSizeController::class, 'update']);
+    Route::delete('/canvas-sizes/{canvasSize}', [AdminCanvasSizeController::class, 'destroy']);
+
+    // Canvas Format Routes
+    Route::get('/canvas-formats', [AdminCanvasFormatController::class, 'index']);
+    Route::post('/canvas-formats', [AdminCanvasFormatController::class, 'store']);
+    Route::get('/canvas-formats/{canvasFormat}', [AdminCanvasFormatController::class, 'show']);
+    Route::post('/canvas-formats/reorder', [AdminCanvasFormatController::class, 'reorder']);
+    // Update can be PUT since it doesn't have files
+    Route::put('/canvas-formats/{canvasFormat}', [AdminCanvasFormatController::class, 'update']);
+    Route::delete('/canvas-formats/{canvasFormat}', [AdminCanvasFormatController::class, 'destroy']);
 });
