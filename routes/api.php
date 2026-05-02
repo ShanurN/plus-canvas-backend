@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CanvasSizeController as AdminCanvasSizeController
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MainCategoryController as AdminMainCategoryController;
 use App\Http\Controllers\Admin\SubCategoryController as AdminSubCategoryController;
+use App\Http\Controllers\Admin\ColorController as AdminColorController;
 use App\Http\Controllers\Admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\Api\BannerController as PublicBannerController;
 use App\Http\Controllers\Api\BrandController as PublicBrandController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Api\CanvasSizeController as PublicCanvasSizeController;
 use App\Http\Controllers\Api\CategoryController as PublicCategoryController;
 use App\Http\Controllers\Api\MainCategoryController as PublicMainCategoryController;
 use App\Http\Controllers\Api\SubCategoryController as PublicSubCategoryController;
+use App\Http\Controllers\Api\ColorController as PublicColorController;
 use App\Http\Controllers\Api\DiscountController as PublicDiscountController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,6 +69,9 @@ Route::get('/canvas-sizes', [PublicCanvasSizeController::class, 'index']);
 
 // Canvas Format Routes
 Route::get('/canvas-formats', [PublicCanvasFormatController::class, 'index']);
+
+// Color Routes
+Route::get('/colors', [PublicColorController::class, 'index']);
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/banners', [AdminBannerController::class, 'index']);
@@ -130,4 +135,12 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     // Update can be PUT since it doesn't have files
     Route::put('/canvas-formats/{canvasFormat}', [AdminCanvasFormatController::class, 'update']);
     Route::delete('/canvas-formats/{canvasFormat}', [AdminCanvasFormatController::class, 'destroy']);
+
+    // Color Routes
+    Route::get('/colors', [AdminColorController::class, 'index']);
+    Route::post('/colors', [AdminColorController::class, 'store']);
+    Route::get('/colors/{color}', [AdminColorController::class, 'show']);
+    Route::post('/colors/reorder', [AdminColorController::class, 'reorder']);
+    Route::post('/colors/{color}', [AdminColorController::class, 'update']);
+    Route::delete('/colors/{color}', [AdminColorController::class, 'destroy']);
 });
