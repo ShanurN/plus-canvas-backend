@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 #[Fillable([
     'name', 
     'slug', 
+    'category_type',
     'is_active', 
     'featured_order',
 ])]

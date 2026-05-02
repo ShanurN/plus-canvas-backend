@@ -16,6 +16,7 @@ class StoreMainCategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:main_categories,slug'],
+            'category_type' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
             'featured_order' => ['nullable', 'integer'],
         ];

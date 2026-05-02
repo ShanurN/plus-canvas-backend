@@ -11,7 +11,6 @@ use OpenApi\Attributes as OA;
     description: "Canvas size resource representation",
     properties: [
         new OA\Property(property: "id", type: "integer"),
-        new OA\Property(property: "name", type: "string", nullable: true),
         new OA\Property(property: "width", type: "number", format: "float"),
         new OA\Property(property: "height", type: "number", format: "float"),
         new OA\Property(property: "unit", type: "string"),
@@ -33,7 +32,6 @@ class CanvasSizeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'width' => $this->width,
             'height' => $this->height,
             'unit' => $this->unit,

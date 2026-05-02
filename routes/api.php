@@ -78,7 +78,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/banners/{banner}', [AdminBannerController::class, 'show']);
     Route::post('/banners', [AdminBannerController::class, 'store']);
     Route::post('/banners/reorder', [AdminBannerController::class, 'reorder']);
-    Route::post('/banners/{banner}', [AdminBannerController::class, 'update']); // Use POST for multipart
+    Route::put('/banners/{banner}', [AdminBannerController::class, 'update']);
     Route::delete('/banners/{banner}', [AdminBannerController::class, 'destroy']);
 
     // Category Routes
@@ -86,21 +86,21 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/main-categories', [AdminMainCategoryController::class, 'store']);
     Route::get('/main-categories/{main_category}', [AdminMainCategoryController::class, 'show']);
     Route::post('/main-categories/reorder', [AdminMainCategoryController::class, 'reorder']);
-    Route::post('/main-categories/{main_category}', [AdminMainCategoryController::class, 'update']);
+    Route::put('/main-categories/{main_category}', [AdminMainCategoryController::class, 'update']);
     Route::delete('/main-categories/{main_category}', [AdminMainCategoryController::class, 'destroy']);
 
     Route::get('/categories', [AdminCategoryController::class, 'index']);
     Route::post('/categories', [AdminCategoryController::class, 'store']);
     Route::get('/categories/{category}', [AdminCategoryController::class, 'show']);
     Route::post('/categories/reorder', [AdminCategoryController::class, 'reorder']);
-    Route::post('/categories/{category}', [AdminCategoryController::class, 'update']); // for multipart
+    Route::put('/categories/{category}', [AdminCategoryController::class, 'update']);
     Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
 
     Route::get('/sub-categories', [AdminSubCategoryController::class, 'index']);
     Route::post('/sub-categories', [AdminSubCategoryController::class, 'store']);
     Route::get('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'show']);
     Route::post('/sub-categories/reorder', [AdminSubCategoryController::class, 'reorder']);
-    Route::post('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'update']);
+    Route::put('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'update']);
     Route::delete('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'destroy']);
 
     // Brand Routes
@@ -116,7 +116,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/discounts', [AdminDiscountController::class, 'store']);
     Route::get('/discounts/{discount}', [AdminDiscountController::class, 'show']);
     Route::post('/discounts/reorder', [AdminDiscountController::class, 'reorder']);
-    Route::post('/discounts/{discount}', [AdminDiscountController::class, 'update']); // for multipart
+    Route::put('/discounts/{discount}', [AdminDiscountController::class, 'update']);
     Route::delete('/discounts/{discount}', [AdminDiscountController::class, 'destroy']);
 
     // Canvas Size Routes
@@ -141,6 +141,6 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/colors', [AdminColorController::class, 'store']);
     Route::get('/colors/{color}', [AdminColorController::class, 'show']);
     Route::post('/colors/reorder', [AdminColorController::class, 'reorder']);
-    Route::post('/colors/{color}', [AdminColorController::class, 'update']);
+    Route::put('/colors/{color}', [AdminColorController::class, 'update']);
     Route::delete('/colors/{color}', [AdminColorController::class, 'destroy']);
 });

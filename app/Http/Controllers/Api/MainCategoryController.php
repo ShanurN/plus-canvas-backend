@@ -14,14 +14,22 @@ class MainCategoryController extends Controller
         path: "/api/main-categories",
         summary: "Get all active main categories",
         tags: ["Frontend - Categories"],
+        parameters: [
+            new OA\Parameter(name: "category_type", in: "query", schema: new OA\Schema(type: "string")),
+        ],
         responses: [
             new OA\Response(response: 200, description: "List of main categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/MainCategoryResource")))
         ]
     )]
-    public function index(): AnonymousResourceCollection
+    public function index(\Illuminate\Http\Request $request): AnonymousResourceCollection
     {
-        $categories = MainCategory::where('is_active', true)
-            ->with(['categories' => function($query) {
+        $query = MainCategory::where('is_active', true);
+
+        if ($request->filled('category_type')) {
+            $query->where('category_type', $request->category_type);
+        }
+
+        $categories = $query->with(['categories' => function($query) {
                 $query->where('is_active', true)->orderBy('featured_order', 'asc');
             }])
             ->orderBy('featured_order', 'asc')

@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
     'main_category_id',
     'name', 
     'slug', 
+    'category_type',
     'is_active', 
     'featured_order',
 ])]

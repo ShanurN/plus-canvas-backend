@@ -29,7 +29,6 @@ class UpdateCanvasFormatRequest extends FormRequest
             'sort_order' => ['nullable', 'integer'],
             'sizes' => ['nullable', 'array'],
             'sizes.*.id' => ['required', 'exists:canvas_sizes,id'],
-            'sizes.*.sort_order' => ['nullable', 'integer'],
         ];
     }
 }

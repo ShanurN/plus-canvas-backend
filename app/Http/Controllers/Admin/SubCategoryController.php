@@ -107,7 +107,7 @@ class SubCategoryController extends Controller
         return new SubCategoryResource($sub_category->load('category'));
     }
 
-    #[OA\Post(
+    #[OA\Put(
         path: "/api/admin/sub-categories/{id}",
         summary: "Update subcategory",
         description: "Use POST with _method=PUT for multipart/form-data updates",

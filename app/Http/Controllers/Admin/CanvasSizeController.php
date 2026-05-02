@@ -48,7 +48,6 @@ class CanvasSizeController extends Controller
             content: new OA\JsonContent(
                 required: ["width", "height"],
                 properties: [
-                    new OA\Property(property: "name", type: "string", nullable: true),
                     new OA\Property(property: "width", type: "number", format: "float"),
                     new OA\Property(property: "height", type: "number", format: "float"),
                     new OA\Property(property: "unit", type: "string", default: "cm"),
@@ -96,7 +95,6 @@ class CanvasSizeController extends Controller
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
                 properties: [
-                    new OA\Property(property: "name", type: "string", nullable: true),
                     new OA\Property(property: "width", type: "number", format: "float"),
                     new OA\Property(property: "height", type: "number", format: "float"),
                     new OA\Property(property: "unit", type: "string"),

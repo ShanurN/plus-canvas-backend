@@ -56,7 +56,6 @@ class CanvasFormatController extends Controller
                     new OA\Property(property: "sizes", type: "array", items: new OA\Items(
                         properties: [
                             new OA\Property(property: "id", type: "integer"),
-                            new OA\Property(property: "sort_order", type: "integer"),
                         ]
                     )),
                 ]
@@ -77,8 +76,8 @@ class CanvasFormatController extends Controller
 
         if (!empty($sizes)) {
             $syncData = [];
-            foreach ($sizes as $size) {
-                $syncData[$size['id']] = ['sort_order' => $size['sort_order'] ?? 0];
+            foreach ($sizes as $index => $size) {
+                $syncData[$size['id']] = ['sort_order' => $index];
             }
             $format->sizes()->sync($syncData);
         }
@@ -119,7 +118,6 @@ class CanvasFormatController extends Controller
                     new OA\Property(property: "sizes", type: "array", items: new OA\Items(
                         properties: [
                             new OA\Property(property: "id", type: "integer"),
-                            new OA\Property(property: "sort_order", type: "integer"),
                         ]
                     )),
                 ]
@@ -140,8 +138,8 @@ class CanvasFormatController extends Controller
 
         if ($sizes !== null) {
             $syncData = [];
-            foreach ($sizes as $size) {
-                $syncData[$size['id']] = ['sort_order' => $size['sort_order'] ?? 0];
+            foreach ($sizes as $index => $size) {
+                $syncData[$size['id']] = ['sort_order' => $index];
             }
             $canvasFormat->sizes()->sync($syncData);
         }

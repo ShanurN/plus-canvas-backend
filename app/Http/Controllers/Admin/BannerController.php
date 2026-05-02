@@ -102,7 +102,7 @@ class BannerController extends Controller
             ->setStatusCode(201);
     }
 
-    #[OA\Post(
+    #[OA\Put(
         path: "/api/admin/banners/{id}",
         summary: "Update an existing banner",
         description: "Note: Use POST with _method=PUT because of PHP multipart/form-data limitations",

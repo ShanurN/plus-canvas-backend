@@ -288,13 +288,13 @@
                     }
                 ]
             },
-            "post": {
+            "put": {
                 "tags": [
                     "Banners"
                 ],
                 "summary": "Update an existing banner",
                 "description": "Note: Use POST with _method=PUT because of PHP multipart/form-data limitations",
-                "operationId": "2d332470b0db0254f3a1f6a1533d9d32",
+                "operationId": "2f2074441c5ee98a3de0d1650fb283e3",
                 "parameters": [
                     {
                         "name": "id",
@@ -721,6 +721,549 @@
                 ]
             }
         },
+        "/api/admin/canvas-formats": {
+            "get": {
+                "tags": [
+                    "Admin - Canvas Formats"
+                ],
+                "summary": "Get list of canvas formats",
+                "operationId": "b52f66ec7b9d95d3a331013633e7a1f8",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of formats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CanvasFormatResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Canvas Formats"
+                ],
+                "summary": "Create a new canvas format",
+                "operationId": "aa2ea1a69e6163dbe2f47cb2a6484316",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "slug"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "default": true
+                                    },
+                                    "sort_order": {
+                                        "type": "integer",
+                                        "default": 0
+                                    },
+                                    "sizes": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Format created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CanvasFormatResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/canvas-formats/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Canvas Formats"
+                ],
+                "summary": "Get single canvas format",
+                "operationId": "bc976fbccf75597f08808e88489dd92d",
+                "responses": {
+                    "200": {
+                        "description": "Format details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CanvasFormatResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Format not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin - Canvas Formats"
+                ],
+                "summary": "Update canvas format",
+                "operationId": "03bb823b293da9b27449c38a1f2fd81d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "sort_order": {
+                                        "type": "integer"
+                                    },
+                                    "sizes": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Format updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CanvasFormatResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Format not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Canvas Formats"
+                ],
+                "summary": "Delete canvas format",
+                "operationId": "31c052e97789004adabcde5b1d70970a",
+                "responses": {
+                    "204": {
+                        "description": "Format deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/canvas-formats/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Canvas Formats"
+                ],
+                "summary": "Batch update formats order",
+                "operationId": "002a3e9509966b2a4a5abd1670e32990",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "sort_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/canvas-sizes": {
+            "get": {
+                "tags": [
+                    "Admin - Canvas Sizes"
+                ],
+                "summary": "Get list of canvas sizes",
+                "operationId": "418aaf06b8842be8412955611812e951",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of sizes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CanvasSizeResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Canvas Sizes"
+                ],
+                "summary": "Create a new canvas size",
+                "operationId": "24eaa7c73c3dd424910a8e0957b1fcdb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "width",
+                                    "height"
+                                ],
+                                "properties": {
+                                    "width": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "unit": {
+                                        "type": "string",
+                                        "default": "cm"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "default": true
+                                    },
+                                    "sort_order": {
+                                        "type": "integer",
+                                        "default": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Size created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CanvasSizeResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/canvas-sizes/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Canvas Sizes"
+                ],
+                "summary": "Get single canvas size",
+                "operationId": "7e075f0f1b6e8aa6e8739ea6e62d0975",
+                "responses": {
+                    "200": {
+                        "description": "Size details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CanvasSizeResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Size not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin - Canvas Sizes"
+                ],
+                "summary": "Update canvas size",
+                "operationId": "6f7cb75d89f70bf77f6122952ce56bb4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "width": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "height": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "unit": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "sort_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Size updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CanvasSizeResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Size not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Canvas Sizes"
+                ],
+                "summary": "Delete canvas size",
+                "operationId": "b0735ddf8a04ef5f5b615643e5cc2bf3",
+                "responses": {
+                    "204": {
+                        "description": "Size deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/canvas-sizes/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Canvas Sizes"
+                ],
+                "summary": "Batch update sizes order",
+                "operationId": "452e9e31f6ad8db311765aa021b655a4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "sort_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/categories": {
             "get": {
                 "tags": [
@@ -731,6 +1274,20 @@
                 "parameters": [
                     {
                         "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "main_category_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "category_type",
                         "in": "query",
                         "schema": {
                             "type": "string"
@@ -793,10 +1350,17 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "name"
+                                    "name",
+                                    "main_category_id"
                                 ],
                                 "properties": {
                                     "name": {
+                                        "type": "string"
+                                    },
+                                    "main_category_id": {
+                                        "type": "integer"
+                                    },
+                                    "category_type": {
                                         "type": "string"
                                     },
                                     "slug": {
@@ -864,13 +1428,13 @@
                     }
                 ]
             },
-            "post": {
+            "put": {
                 "tags": [
                     "Admin - Categories"
                 ],
                 "summary": "Update category",
                 "description": "Use POST with _method=PUT for multipart/form-data updates",
-                "operationId": "6141289de354ffee4a0e94ef25f8d81c",
+                "operationId": "e71fc0468144def0740c0fea7a736e50",
                 "parameters": [
                     {
                         "name": "id",
@@ -891,6 +1455,12 @@
                                         "example": "PUT"
                                     },
                                     "name": {
+                                        "type": "string"
+                                    },
+                                    "main_category_id": {
+                                        "type": "integer"
+                                    },
+                                    "category_type": {
                                         "type": "string"
                                     },
                                     "slug": {
@@ -954,6 +1524,277 @@
                 ],
                 "summary": "Batch update categories order/blocks",
                 "operationId": "3eadf81b426ba90cc7aff36d98013bca",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "featured_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/colors": {
+            "get": {
+                "tags": [
+                    "Admin - Colors"
+                ],
+                "summary": "Get list of colors with filters",
+                "operationId": "121b66214ebacfb682062d456bcef6f4",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "featured_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of colors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ColorResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Colors"
+                ],
+                "summary": "Create a new color",
+                "operationId": "7a38b50e62c7a9de96638037cc5dc8c6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "hex_code": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Color created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColorResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/colors/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Colors"
+                ],
+                "summary": "Get single color",
+                "operationId": "eecc359d715576ac16b145c16e75bc38",
+                "responses": {
+                    "200": {
+                        "description": "Color details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColorResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Color not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin - Colors"
+                ],
+                "summary": "Update color",
+                "description": "Use POST with _method=PUT for multipart/form-data updates",
+                "operationId": "806eeb673995ecde71964b9048c41b6b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "hex_code": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Color updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColorResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Color not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Colors"
+                ],
+                "summary": "Delete color",
+                "operationId": "6871e2106814ab7f89dd41aec79379c3",
+                "responses": {
+                    "204": {
+                        "description": "Color deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/colors/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Colors"
+                ],
+                "summary": "Batch update colors order",
+                "operationId": "0fa782849dc85b3c31bb773f67ffa39c",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1156,13 +1997,13 @@
                     }
                 ]
             },
-            "post": {
+            "put": {
                 "tags": [
                     "Admin - Discounts"
                 ],
                 "summary": "Update discount",
                 "description": "Use POST with _method=PUT for multipart/form-data updates",
-                "operationId": "ff533c8c6680e6e6746c2ded870d71d3",
+                "operationId": "3d966d4e2956a9952e1e8341c9032300",
                 "parameters": [
                     {
                         "name": "id",
@@ -1298,6 +2139,575 @@
                 ]
             }
         },
+        "/api/admin/main-categories": {
+            "get": {
+                "tags": [
+                    "Admin - Main Categories"
+                ],
+                "summary": "Get list of main categories with filters",
+                "operationId": "b73243f616503f014c899923a735f253",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "featured_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of main categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MainCategoryResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Main Categories"
+                ],
+                "summary": "Create a new main category",
+                "operationId": "11b3c61f999c8976c7868870f46b8bf7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "category_type": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Main category created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MainCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/main-categories/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Main Categories"
+                ],
+                "summary": "Get single main category",
+                "operationId": "4734233c39dce9f48968b91c99bbafa4",
+                "responses": {
+                    "200": {
+                        "description": "Main category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MainCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Main category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin - Main Categories"
+                ],
+                "summary": "Update main category",
+                "description": "Use POST with _method=PUT for multipart/form-data updates",
+                "operationId": "59de2b4ea62e0f21050b031092f5c577",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "category_type": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Main category updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MainCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Main category not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Main Categories"
+                ],
+                "summary": "Delete main category",
+                "operationId": "70bf0cc2de678385ee26585a68a3c1a2",
+                "responses": {
+                    "204": {
+                        "description": "Main category deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/main-categories/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Main Categories"
+                ],
+                "summary": "Batch update main categories order",
+                "operationId": "3ff0d35b42c3ede06be366a3cad58e99",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "featured_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/sub-categories": {
+            "get": {
+                "tags": [
+                    "Admin - Subcategories"
+                ],
+                "summary": "Get list of subcategories with filters",
+                "operationId": "2ed2f95147636e876fa0438b2734b761",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "featured_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of subcategories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SubCategoryResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin - Subcategories"
+                ],
+                "summary": "Create a new subcategory",
+                "operationId": "0546efbcbeea078956bb224b9cbfbe3c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Subcategory created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/sub-categories/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Subcategories"
+                ],
+                "summary": "Get single subcategory",
+                "operationId": "aeb48f9d26dec775dcbe84a14c8bf17d",
+                "responses": {
+                    "200": {
+                        "description": "Subcategory details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subcategory not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Admin - Subcategories"
+                ],
+                "summary": "Update subcategory",
+                "description": "Use POST with _method=PUT for multipart/form-data updates",
+                "operationId": "e33ad87ea7ce67f7760484f2e9b8ee04",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "featured_order": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subcategory updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subcategory not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin - Subcategories"
+                ],
+                "summary": "Delete subcategory",
+                "operationId": "2a8ae6e292d92fb24c0e47bda9ac2be7",
+                "responses": {
+                    "204": {
+                        "description": "Subcategory deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/sub-categories/reorder": {
+            "post": {
+                "tags": [
+                    "Admin - Subcategories"
+                ],
+                "summary": "Batch update subcategories order",
+                "operationId": "0f4e4e7f373135435e54db555c38c541",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "featured_order": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
         "/api/banners": {
             "get": {
                 "tags": [
@@ -1385,8 +2795,24 @@
                 "tags": [
                     "Frontend - Categories"
                 ],
-                "summary": "Get all active categories",
+                "summary": "Get active categories with optional main_category filter",
                 "operationId": "ac9c4d978ea4e5b72915ca9728e5b8b1",
+                "parameters": [
+                    {
+                        "name": "main_category_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "category_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of categories",
@@ -1396,6 +2822,30 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/CategoryResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/colors": {
+            "get": {
+                "tags": [
+                    "Frontend - Colors"
+                ],
+                "summary": "Get all active colors",
+                "operationId": "7683a6ddd1e77ab8cbd0cb83e45db3a9",
+                "responses": {
+                    "200": {
+                        "description": "List of colors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ColorResource"
                                     }
                                 }
                             }
@@ -1441,6 +2891,72 @@
                     },
                     "404": {
                         "description": "Discount not found"
+                    }
+                }
+            }
+        },
+        "/api/main-categories": {
+            "get": {
+                "tags": [
+                    "Frontend - Categories"
+                ],
+                "summary": "Get all active main categories",
+                "operationId": "2100ab8a5e06454d5853b7b55956b916",
+                "parameters": [
+                    {
+                        "name": "category_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of main categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MainCategoryResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sub-categories": {
+            "get": {
+                "tags": [
+                    "Frontend - Categories"
+                ],
+                "summary": "Get active subcategories",
+                "operationId": "6e29ead03cb1ff89a84f94c588554423",
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of subcategories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SubCategoryResource"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1517,9 +3033,9 @@
                 },
                 "type": "object"
             },
-            "CategoryResource": {
-                "title": "CategoryResource",
-                "description": "Category resource representation",
+            "CanvasFormatResource": {
+                "title": "CanvasFormatResource",
+                "description": "Canvas format resource representation",
                 "properties": {
                     "id": {
                         "type": "integer"
@@ -1529,6 +3045,128 @@
                     },
                     "slug": {
                         "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "sort_order": {
+                        "type": "integer"
+                    },
+                    "sizes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CanvasSizeResource"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CanvasSizeResource": {
+                "title": "CanvasSizeResource",
+                "description": "Canvas size resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "width": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "height": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "unit": {
+                        "type": "string"
+                    },
+                    "display_name": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "sort_order": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "title": "CategoryResource",
+                "description": "Category resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "main_category_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "category_type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "featured_order": {
+                        "type": "integer"
+                    },
+                    "main_category": {
+                        "$ref": "#/components/schemas/MainCategoryResource"
+                    },
+                    "sub_categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SubCategoryResource"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ColorResource": {
+                "title": "ColorResource",
+                "description": "Color resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "hex_code": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "is_active": {
                         "type": "boolean"
@@ -1571,6 +3209,82 @@
                     },
                     "order": {
                         "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "MainCategoryResource": {
+                "title": "MainCategoryResource",
+                "description": "Main Category resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "category_type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "featured_order": {
+                        "type": "integer"
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryResource"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "SubCategoryResource": {
+                "title": "SubCategoryResource",
+                "description": "Sub Category resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "category_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "featured_order": {
+                        "type": "integer"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
                     },
                     "created_at": {
                         "type": "string",
@@ -1637,12 +3351,32 @@
             "description": "Admin - Brands"
         },
         {
+            "name": "Admin - Canvas Formats",
+            "description": "Admin - Canvas Formats"
+        },
+        {
+            "name": "Admin - Canvas Sizes",
+            "description": "Admin - Canvas Sizes"
+        },
+        {
             "name": "Admin - Categories",
             "description": "Admin - Categories"
         },
         {
+            "name": "Admin - Colors",
+            "description": "Admin - Colors"
+        },
+        {
             "name": "Admin - Discounts",
             "description": "Admin - Discounts"
+        },
+        {
+            "name": "Admin - Main Categories",
+            "description": "Admin - Main Categories"
+        },
+        {
+            "name": "Admin - Subcategories",
+            "description": "Admin - Subcategories"
         },
         {
             "name": "Frontend - Banners",
@@ -1655,6 +3389,10 @@
         {
             "name": "Frontend - Categories",
             "description": "Frontend - Categories"
+        },
+        {
+            "name": "Frontend - Colors",
+            "description": "Frontend - Colors"
         },
         {
             "name": "Frontend - Discounts",

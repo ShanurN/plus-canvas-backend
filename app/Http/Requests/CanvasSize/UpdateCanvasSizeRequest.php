@@ -22,7 +22,6 @@ class UpdateCanvasSizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string', 'max:255'],
             'width' => ['sometimes', 'required', 'numeric', 'min:0'],
             'height' => ['sometimes', 'required', 'numeric', 'min:0'],
             'unit' => ['nullable', 'string', 'max:10'],

@@ -16,6 +16,7 @@ class UpdateMainCategoryRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:main_categories,slug,' . $this->route('main_category')->id],
+            'category_type' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
             'featured_order' => ['nullable', 'integer'],
         ];

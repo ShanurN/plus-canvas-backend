@@ -16,6 +16,7 @@ class CategoryController extends Controller
         tags: ["Frontend - Categories"],
         parameters: [
             new OA\Parameter(name: "main_category_id", in: "query", schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "category_type", in: "query", schema: new OA\Schema(type: "string")),
         ],
         responses: [
             new OA\Response(response: 200, description: "List of categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
@@ -27,6 +28,10 @@ class CategoryController extends Controller
 
         if ($request->filled('main_category_id')) {
             $query->where('main_category_id', $request->main_category_id);
+        }
+
+        if ($request->filled('category_type')) {
+            $query->where('category_type', $request->category_type);
         }
 
         $categories = $query->with(['subCategories' => function($q) {

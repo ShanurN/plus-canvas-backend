@@ -22,7 +22,6 @@ class StoreCanvasSizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string', 'max:255'],
             'width' => ['required', 'numeric', 'min:0'],
             'height' => ['required', 'numeric', 'min:0'],
             'unit' => ['nullable', 'string', 'max:10'],

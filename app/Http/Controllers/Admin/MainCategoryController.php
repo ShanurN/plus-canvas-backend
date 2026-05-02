@@ -21,6 +21,7 @@ class MainCategoryController extends Controller
         security: [["apiAuth" => []]],
         parameters: [
             new OA\Parameter(name: "name", in: "query", schema: new OA\Schema(type: "string")),
+            new OA\Parameter(name: "category_type", in: "query", schema: new OA\Schema(type: "string")),
             new OA\Parameter(name: "featured_order", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "limit", in: "query", schema: new OA\Schema(type: "integer", default: 15)),
             new OA\Parameter(name: "offset", in: "query", schema: new OA\Schema(type: "integer", default: 0)),
@@ -35,6 +36,10 @@ class MainCategoryController extends Controller
 
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('category_type')) {
+            $query->where('category_type', $request->category_type);
         }
 
         if ($request->filled('featured_order')) {
@@ -64,6 +69,7 @@ class MainCategoryController extends Controller
                     properties: [
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
+                        new OA\Property(property: "category_type", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
                     ]
@@ -101,7 +107,7 @@ class MainCategoryController extends Controller
         return new MainCategoryResource($main_category->load('categories'));
     }
 
-    #[OA\Post(
+    #[OA\Put(
         path: "/api/admin/main-categories/{id}",
         summary: "Update main category",
         description: "Use POST with _method=PUT for multipart/form-data updates",
@@ -116,6 +122,7 @@ class MainCategoryController extends Controller
                         new OA\Property(property: "_method", type: "string", example: "PUT"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "slug", type: "string"),
+                        new OA\Property(property: "category_type", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
                     ]

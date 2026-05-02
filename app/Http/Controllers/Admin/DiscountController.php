@@ -114,7 +114,7 @@ class DiscountController extends Controller
         return new DiscountResource($discount);
     }
 
-    #[OA\Post(
+    #[OA\Put(
         path: "/api/admin/discounts/{id}",
         summary: "Update discount",
         description: "Use POST with _method=PUT for multipart/form-data updates",
