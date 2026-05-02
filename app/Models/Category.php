@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 #[Fillable([
+    'main_category_id',
     'name', 
     'slug', 
     'is_active', 
@@ -14,6 +17,15 @@ use Illuminate\Support\Str;
 ])]
 class Category extends Model
 {
+    public function mainCategory(): BelongsTo
+    {
+        return $this->belongsTo(MainCategory::class);
+    }
+
+    public function subCategories(): HasMany
+    {
+        return $this->hasMany(SubCategory::class);
+    }
     protected static function boot()
     {
         parent::boot();
@@ -35,6 +47,7 @@ class Category extends Model
         return [
             'is_active' => 'boolean',
             'featured_order' => 'integer',
+            'main_category_id' => 'integer',
         ];
     }
 }

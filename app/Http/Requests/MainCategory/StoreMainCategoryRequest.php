@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\MainCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCategoryRequest extends FormRequest
+class StoreMainCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,8 +15,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug'],
-            'main_category_id' => ['required', 'integer', 'exists:main_categories,id'],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:main_categories,slug'],
             'is_active' => ['nullable', 'boolean'],
             'featured_order' => ['nullable', 'integer'],
         ];

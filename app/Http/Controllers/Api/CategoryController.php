@@ -12,15 +12,26 @@ class CategoryController extends Controller
 {
     #[OA\Get(
         path: "/api/categories",
-        summary: "Get all active categories",
+        summary: "Get active categories with optional main_category filter",
         tags: ["Frontend - Categories"],
+        parameters: [
+            new OA\Parameter(name: "main_category_id", in: "query", schema: new OA\Schema(type: "integer")),
+        ],
         responses: [
             new OA\Response(response: 200, description: "List of categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
         ]
     )]
-    public function index(): AnonymousResourceCollection
+    public function index(\Illuminate\Http\Request $request): AnonymousResourceCollection
     {
-        $categories = Category::where('is_active', true)
+        $query = Category::where('is_active', true);
+
+        if ($request->filled('main_category_id')) {
+            $query->where('main_category_id', $request->main_category_id);
+        }
+
+        $categories = $query->with(['subCategories' => function($q) {
+                $q->where('is_active', true)->orderBy('featured_order', 'asc');
+            }])
             ->orderBy('featured_order', 'asc')
             ->orderBy('name')
             ->get();

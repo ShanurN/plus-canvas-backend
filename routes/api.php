@@ -6,12 +6,16 @@ use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Admin\CanvasFormatController as AdminCanvasFormatController;
 use App\Http\Controllers\Admin\CanvasSizeController as AdminCanvasSizeController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\MainCategoryController as AdminMainCategoryController;
+use App\Http\Controllers\Admin\SubCategoryController as AdminSubCategoryController;
 use App\Http\Controllers\Admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\Api\BannerController as PublicBannerController;
 use App\Http\Controllers\Api\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\CanvasFormatController as PublicCanvasFormatController;
 use App\Http\Controllers\Api\CanvasSizeController as PublicCanvasSizeController;
 use App\Http\Controllers\Api\CategoryController as PublicCategoryController;
+use App\Http\Controllers\Api\MainCategoryController as PublicMainCategoryController;
+use App\Http\Controllers\Api\SubCategoryController as PublicSubCategoryController;
 use App\Http\Controllers\Api\DiscountController as PublicDiscountController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +51,9 @@ Route::get('/banners', [PublicBannerController::class, 'index']);
 Route::get('/banners/{banner}', [PublicBannerController::class, 'show']);
 
 // Category Routes
+Route::get('/main-categories', [PublicMainCategoryController::class, 'index']);
 Route::get('/categories', [PublicCategoryController::class, 'index']);
+Route::get('/sub-categories', [PublicSubCategoryController::class, 'index']);
 
 // Brand Routes
 Route::get('/brands', [PublicBrandController::class, 'index']);
@@ -71,12 +77,26 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::delete('/banners/{banner}', [AdminBannerController::class, 'destroy']);
 
     // Category Routes
+    Route::get('/main-categories', [AdminMainCategoryController::class, 'index']);
+    Route::post('/main-categories', [AdminMainCategoryController::class, 'store']);
+    Route::get('/main-categories/{main_category}', [AdminMainCategoryController::class, 'show']);
+    Route::post('/main-categories/reorder', [AdminMainCategoryController::class, 'reorder']);
+    Route::post('/main-categories/{main_category}', [AdminMainCategoryController::class, 'update']);
+    Route::delete('/main-categories/{main_category}', [AdminMainCategoryController::class, 'destroy']);
+
     Route::get('/categories', [AdminCategoryController::class, 'index']);
     Route::post('/categories', [AdminCategoryController::class, 'store']);
     Route::get('/categories/{category}', [AdminCategoryController::class, 'show']);
     Route::post('/categories/reorder', [AdminCategoryController::class, 'reorder']);
     Route::post('/categories/{category}', [AdminCategoryController::class, 'update']); // for multipart
     Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
+
+    Route::get('/sub-categories', [AdminSubCategoryController::class, 'index']);
+    Route::post('/sub-categories', [AdminSubCategoryController::class, 'store']);
+    Route::get('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'show']);
+    Route::post('/sub-categories/reorder', [AdminSubCategoryController::class, 'reorder']);
+    Route::post('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'update']);
+    Route::delete('/sub-categories/{sub_category}', [AdminSubCategoryController::class, 'destroy']);
 
     // Brand Routes
     Route::get('/brands', [AdminBrandController::class, 'index']);

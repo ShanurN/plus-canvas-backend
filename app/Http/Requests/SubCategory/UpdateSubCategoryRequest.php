@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\SubCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCategoryRequest extends FormRequest
+class UpdateSubCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,9 +14,9 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug'],
-            'main_category_id' => ['required', 'integer', 'exists:main_categories,id'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:sub_categories,slug,' . $this->route('sub_category')->id],
             'is_active' => ['nullable', 'boolean'],
             'featured_order' => ['nullable', 'integer'],
         ];

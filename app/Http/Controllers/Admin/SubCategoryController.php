@@ -3,73 +3,72 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\StoreCategoryRequest;
-use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Http\Requests\SubCategory\StoreSubCategoryRequest;
+use App\Http\Requests\SubCategory\UpdateSubCategoryRequest;
+use App\Http\Resources\SubCategoryResource;
+use App\Models\SubCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Storage;
 use OpenApi\Attributes as OA;
 
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
     #[OA\Get(
-        path: "/api/admin/categories",
-        summary: "Get list of categories with filters",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/sub-categories",
+        summary: "Get list of subcategories with filters",
+        tags: ["Admin - Subcategories"],
         security: [["apiAuth" => []]],
         parameters: [
             new OA\Parameter(name: "name", in: "query", schema: new OA\Schema(type: "string")),
-            new OA\Parameter(name: "main_category_id", in: "query", schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "category_id", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "featured_order", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "limit", in: "query", schema: new OA\Schema(type: "integer", default: 15)),
             new OA\Parameter(name: "offset", in: "query", schema: new OA\Schema(type: "integer", default: 0)),
         ],
         responses: [
-            new OA\Response(response: 200, description: "List of categories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/CategoryResource")))
+            new OA\Response(response: 200, description: "List of subcategories", content: new OA\JsonContent(type: "array", items: new OA\Items(ref: "#/components/schemas/SubCategoryResource")))
         ]
     )]
     public function index(Request $request): AnonymousResourceCollection
     {
-        $query = Category::with(['mainCategory']);
+        $query = SubCategory::with(['category']);
 
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->name . '%');
         }
 
-        if ($request->filled('main_category_id')) {
-            $query->where('main_category_id', $request->main_category_id);
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
         }
 
         if ($request->filled('featured_order')) {
             $query->where('featured_order', $request->featured_order);
         }
 
-        $categories = $query->orderBy('featured_order', 'asc')
+        $subcategories = $query->orderBy('featured_order', 'asc')
             ->orderBy('id', 'desc')
             ->skip($request->integer('offset', 0))
             ->take($request->integer('limit', 15))
             ->get();
 
-        return CategoryResource::collection($categories);
+        return SubCategoryResource::collection($subcategories);
     }
 
     #[OA\Post(
-        path: "/api/admin/categories",
-        summary: "Create a new category",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/sub-categories",
+        summary: "Create a new subcategory",
+        tags: ["Admin - Subcategories"],
         security: [["apiAuth" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\MediaType(
                 mediaType: "multipart/form-data",
                 schema: new OA\Schema(
-                    required: ["name", "main_category_id"],
+                    required: ["name", "category_id"],
                     properties: [
                         new OA\Property(property: "name", type: "string"),
-                        new OA\Property(property: "main_category_id", type: "integer"),
+                        new OA\Property(property: "category_id", type: "integer"),
                         new OA\Property(property: "slug", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
@@ -78,41 +77,41 @@ class CategoryController extends Controller
             )
         ),
         responses: [
-            new OA\Response(response: 201, description: "Category created", content: new OA\JsonContent(ref: "#/components/schemas/CategoryResource")),
+            new OA\Response(response: 201, description: "Subcategory created", content: new OA\JsonContent(ref: "#/components/schemas/SubCategoryResource")),
             new OA\Response(response: 422, description: "Validation error")
         ]
     )]
-    public function store(StoreCategoryRequest $request): JsonResponse
+    public function store(StoreSubCategoryRequest $request): JsonResponse
     {
         $data = $request->validated();
 
-        $category = Category::create($data);
+        $subcategory = SubCategory::create($data);
 
-        return (new CategoryResource($category->load('mainCategory')))
+        return (new SubCategoryResource($subcategory->load('category')))
             ->response()
             ->setStatusCode(201);
     }
 
     #[OA\Get(
-        path: "/api/admin/categories/{id}",
-        summary: "Get single category",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/sub-categories/{id}",
+        summary: "Get single subcategory",
+        tags: ["Admin - Subcategories"],
         security: [["apiAuth" => []]],
         responses: [
-            new OA\Response(response: 200, description: "Category details", content: new OA\JsonContent(ref: "#/components/schemas/CategoryResource")),
-            new OA\Response(response: 404, description: "Category not found")
+            new OA\Response(response: 200, description: "Subcategory details", content: new OA\JsonContent(ref: "#/components/schemas/SubCategoryResource")),
+            new OA\Response(response: 404, description: "Subcategory not found")
         ]
     )]
-    public function show(Category $category): CategoryResource
+    public function show(SubCategory $sub_category): SubCategoryResource
     {
-        return new CategoryResource($category->load(['mainCategory', 'subCategories']));
+        return new SubCategoryResource($sub_category->load('category'));
     }
 
     #[OA\Post(
-        path: "/api/admin/categories/{id}",
-        summary: "Update category",
+        path: "/api/admin/sub-categories/{id}",
+        summary: "Update subcategory",
         description: "Use POST with _method=PUT for multipart/form-data updates",
-        tags: ["Admin - Categories"],
+        tags: ["Admin - Subcategories"],
         security: [["apiAuth" => []]],
         parameters: [new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))],
         requestBody: new OA\RequestBody(
@@ -122,7 +121,7 @@ class CategoryController extends Controller
                     properties: [
                         new OA\Property(property: "_method", type: "string", example: "PUT"),
                         new OA\Property(property: "name", type: "string"),
-                        new OA\Property(property: "main_category_id", type: "integer"),
+                        new OA\Property(property: "category_id", type: "integer"),
                         new OA\Property(property: "slug", type: "string"),
                         new OA\Property(property: "is_active", type: "boolean"),
                         new OA\Property(property: "featured_order", type: "integer"),
@@ -131,39 +130,39 @@ class CategoryController extends Controller
             )
         ),
         responses: [
-            new OA\Response(response: 200, description: "Category updated", content: new OA\JsonContent(ref: "#/components/schemas/CategoryResource")),
-            new OA\Response(response: 404, description: "Category not found")
+            new OA\Response(response: 200, description: "Subcategory updated", content: new OA\JsonContent(ref: "#/components/schemas/SubCategoryResource")),
+            new OA\Response(response: 404, description: "Subcategory not found")
         ]
     )]
-    public function update(UpdateCategoryRequest $request, Category $category): CategoryResource
+    public function update(UpdateSubCategoryRequest $request, SubCategory $sub_category): SubCategoryResource
     {
         $data = $request->validated();
 
-        $category->update($data);
+        $sub_category->update($data);
 
-        return new CategoryResource($category);
+        return new SubCategoryResource($sub_category);
     }
 
     #[OA\Delete(
-        path: "/api/admin/categories/{id}",
-        summary: "Delete category",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/sub-categories/{id}",
+        summary: "Delete subcategory",
+        tags: ["Admin - Subcategories"],
         security: [["apiAuth" => []]],
         responses: [
-            new OA\Response(response: 204, description: "Category deleted")
+            new OA\Response(response: 204, description: "Subcategory deleted")
         ]
     )]
-    public function destroy(Category $category): JsonResponse
+    public function destroy(SubCategory $sub_category): JsonResponse
     {
-        $category->delete();
+        $sub_category->delete();
 
         return response()->json(null, 204);
     }
 
     #[OA\Post(
-        path: "/api/admin/categories/reorder",
-        summary: "Batch update categories order/blocks",
-        tags: ["Admin - Categories"],
+        path: "/api/admin/sub-categories/reorder",
+        summary: "Batch update subcategories order",
+        tags: ["Admin - Subcategories"],
         security: [["apiAuth" => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -186,15 +185,15 @@ class CategoryController extends Controller
     {
         $request->validate([
             'items' => ['required', 'array'],
-            'items.*.id' => ['required', 'exists:categories,id'],
+            'items.*.id' => ['required', 'exists:sub_categories,id'],
             'items.*.featured_order' => ['nullable', 'integer'],
         ]);
 
         foreach ($request->items as $item) {
-            $category = Category::find($item['id']);
-            $category->update(array_filter($item, fn($key) => $key !== 'id', ARRAY_FILTER_USE_KEY));
+            $subcategory = SubCategory::find($item['id']);
+            $subcategory->update(array_filter($item, fn($key) => $key !== 'id', ARRAY_FILTER_USE_KEY));
         }
 
-        return response()->json(['message' => 'Categories updated successfully']);
+        return response()->json(['message' => 'Subcategories updated successfully']);
     }
 }
